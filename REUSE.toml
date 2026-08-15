@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+SPDX-PackageName = "any2nix"
+version = 1
+[[annotations]]
+  path = "**"
+  precedence = "aggregate"
+  SPDX-FileCopyrightText = "2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>"
+  SPDX-License-Identifier = "GPL-3.0-or-later"
+[[annotations]]
+  path = ["assets/**", "img/**"]
+  precedence = "aggregate"
+  SPDX-FileCopyrightText = "2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>"
+  SPDX-License-Identifier = "CC-BY-4.0"
+

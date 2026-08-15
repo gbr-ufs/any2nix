@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "any2nix-web"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+description = """
+Web app that provides an interface and an API for translating from various
+formats to Nix.
+"""
+
+[dependencies]
+any2nix-api.workspace = true
+any2nix-site.workspace = true

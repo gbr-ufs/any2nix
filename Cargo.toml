@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[workspace]
+resolver = "3"
+members = [
+  "any2nix",
+  "any2nix-api",
+  "any2nix-cli",
+  "any2nix-gui",
+  "any2nix-site",
+  "any2nix-web",
+]
+
+[workspace.dependencies]
+any2nix = { version = "0.1.0", path = "./any2nix" }
+any2nix-api = { version = "0.1.0", path = "./any2nix-api" }
+any2nix-site = { version = "0.1.0", path = "./any2nix-site" }
+
+[workspace.package]
+license = "GPL-3.0-or-later"
