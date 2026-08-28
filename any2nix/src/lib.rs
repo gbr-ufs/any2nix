@@ -64,7 +64,7 @@ pub enum Error {
     #[cfg(feature = "json")]
     #[error("Invalid JSON: {0}")]
     Json(#[from] serde_json::Error),
-    /// This error message is different because Nix is a target, not a source.
+    // This error message is different because Nix is a target, not a source.
     #[error("Failed to serialize to Nix: {0}")]
     Nix(#[from] ser_nix::Error),
     #[cfg(feature = "toml")]
