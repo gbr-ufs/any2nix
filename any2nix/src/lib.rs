@@ -35,10 +35,10 @@
 //! [package]
 //! name = "any2nix"
 //! "#;
-//! // Functions follow a clear `${format}_to_nix` naming scheme.
+//! // Functions follow a clear "{format}_to_nix" naming convention.
 //! let nix = match any2nix::toml_to_nix(some_toml) {
 //!     Ok(v) => v,
-//!     Err(e) => panic!("invalid TOML") // Returns a `Result<String, any2nix::Error>`.
+//!     Err(e) => panic!("invalid TOML") // Returns a "Result<String, any2nix::Error>".
 //! };
 //!
 //! println!("{}", nix);
@@ -64,8 +64,8 @@ pub enum Error {
     #[cfg(feature = "json")]
     #[error("Invalid JSON: {0}")]
     Json(#[from] serde_json::Error),
-    #[error("Failed to serialize to Nix: {0}")]
     /// This error message is different because Nix is a target, not a source.
+    #[error("Failed to serialize to Nix: {0}")]
     Nix(#[from] ser_nix::Error),
     #[cfg(feature = "toml")]
     #[error("Invalid TOML: {0}")]
@@ -104,7 +104,7 @@ where
 /// let some_ini = "[Actor]
 /// bUseNavMeshForMovement=1
 /// fNotVisibleNavmeshMoveDist=2048.0000";
-/// // We use `unwrap` because it returns a `Result`. Never use `unwrap` in
+/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
 /// // production!
 /// let nix = any2nix::ini_to_nix(&some_ini).unwrap();
 ///
@@ -113,8 +113,8 @@ where
 /// //
 /// // {
 /// //   Actor = {
-/// //     bUseNavMeshForMovement = 1;
-/// //     fNotVisibleNavmeshMoveDist = 2048.0000;
+/// //     bUseNavMeshForMovement = "1";
+/// //     fNotVisibleNavmeshMoveDist = "2048.0000";
 /// //   };
 /// // }
 /// # assert_eq!(nix, "{\n  Actor = {\n    bUseNavMeshForMovement = \"1\";\n    fNotVisibleNavmeshMoveDist = \"2048.0000\";\n  };\n}")
@@ -140,7 +140,7 @@ pub fn ini_to_nix(input: &str) -> Result<String, Error> {
 ///     "name": "any2nix",
 ///     "version": "0.1.0"
 /// }"#;
-/// // We use `unwrap` because it returns a `Result`. Never use `unwrap` in
+/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
 /// // production!
 /// let nix = any2nix::json_to_nix(&some_json).unwrap();
 ///
@@ -174,7 +174,7 @@ pub fn json_to_nix(input: &str) -> Result<String, Error> {
 /// [package]
 /// name = "any2nix"
 /// "#;
-/// // We use `unwrap` because it returns a `Result`. Never use `unwrap` in
+/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
 /// // production!
 /// let nix = any2nix::toml_to_nix(&some_toml).unwrap();
 ///
@@ -212,7 +212,7 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 ///     ports:
 ///       - "5432:5432"
 /// "#;
-/// // We use `unwrap` because it returns a `Result`. Never use `unwrap` in
+/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
 /// // production!
 /// let nix = any2nix::yaml_to_nix(&some_yaml).unwrap();
 ///
