@@ -19,6 +19,18 @@
       let
         overlays = [(import rust-overlay)];
         pkgs = import nixpkgs {inherit overlays system;};
+        emacsSettings = pkgs.writeText "dir-locals.el" ''
+          ((rust-mode     . ((eglot-workspace-configuration
+                              . (:rust-analyzer
+                                 (:check
+                                  (:command "clippy"
+                                   :allTargets t))))))
+            (rust-ts-mode . ((eglot-workspace-configuration
+                              . (:rust-analyzer
+                                 (:check
+                                  (:command "clippy"
+                                   :allTargets t)))))))
+          '';
         rustToolchain = pkgs.rust-bin.fromRustupToolchainFile ../rust-toolchain.toml;
       in
       {
@@ -43,6 +55,9 @@
             vscode-langservers-extracted
             zizmor
           ];
+          shellHook = ''
+            ln -sf ${emacsSettings} .dir-locals.el
+            '';
         };
       }
     );
