@@ -253,8 +253,6 @@ mode = index
 ";
         let nix = ini_to_nix(ini);
 
-        assert!(nix.is_ok());
-
         let expected = r#"{
   dmenu = {
     mode = "index";
@@ -284,8 +282,6 @@ nonsense = "
 }"#;
         let nix = json_to_nix(json);
 
-        assert!(nix.is_ok());
-
         let expected = r#"{
   name = "forgejo";
 }"#;
@@ -313,8 +309,6 @@ name = "any2nix"
 "#;
         let nix = toml_to_nix(toml);
 
-        assert!(nix.is_ok());
-
         let expected = r#"{
   package = {
     name = "any2nix";
@@ -341,8 +335,6 @@ doesnt_work = foo";
   - BR
   - NO";
         let nix = yaml_to_nix(yaml);
-
-        assert!(nix.is_ok());
 
         let expected = r#"{
   countries = [
