@@ -3,11 +3,26 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
+author.workspace = true
 name = "any2nix"
 version = "0.1.0"
 edition = "2024"
 license.workspace = true
 description = "Serialization-powered Nix Converter."
+repository.workspace = true
+categories = [
+  "config",
+  "development-tools",
+  "encoding",
+  "parsing"
+]
+keywords = [
+  "nix",
+  "serde",
+  "converter",
+  "toml",
+  "yaml"
+]
 
 [dependencies]
 ser_nix = "0.2.4"

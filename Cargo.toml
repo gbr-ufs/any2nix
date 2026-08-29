@@ -19,4 +19,6 @@ any2nix-api = { version = "0.1.0", path = "./any2nix-api" }
 any2nix-site = { version = "0.1.0", path = "./any2nix-site" }
 
 [workspace.package]
+authors = [ "Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>" ]
 license = "GPL-3.0-or-later"
+repository = "https://git.gs-101.dev/gs-101/any2nix"

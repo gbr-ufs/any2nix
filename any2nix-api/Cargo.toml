@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
+author.workspace = true
 name = "any2nix-api"
 version = "0.1.0"
 edition = "2024"
@@ -11,6 +12,9 @@ description = """
 JSON-based server that can be used as an API for translating from different
 formats to Nix.
 """
+repository.workspace = true
+categories = ["web-programming::http-server", "web-programming"]
+keywords = ["api", "nix", "http", "converter", "json"]
 
 [dependencies]
 any2nix.workspace = true

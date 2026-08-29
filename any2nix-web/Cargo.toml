@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
+author.workspace = true
 name = "any2nix-web"
 version = "0.1.0"
 edition = "2024"
@@ -11,6 +12,9 @@ description = """
 Web app that provides an interface and an API for translating from various
 formats to Nix.
 """
+repository.workspace = true
+categories = ["web-programming"]
+keywords = ["web", "nix", "converter", "wasm"]
 
 [dependencies]
 any2nix-api.workspace = true

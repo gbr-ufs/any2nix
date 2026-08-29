@@ -3,11 +3,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
+author.workspace = true
 name = "any2nix-gui"
 version = "0.1.0"
 edition = "2024"
 license.workspace = true
 description = "Graphical interface for translating from various formats to Nix."
+repository.workspace = true
+categories = ["gui"]
+keywords = ["gui", "nix", "converter", "desktop"]
 
 [dependencies]
 any2nix.workspace = true
