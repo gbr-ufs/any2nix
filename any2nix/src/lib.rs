@@ -106,9 +106,7 @@ where
 /// let some_ini = "[Actor]
 /// bUseNavMeshForMovement=1
 /// fNotVisibleNavmeshMoveDist=2048.0000";
-/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
-/// // production!
-/// let nix = any2nix::ini_to_nix(&some_ini).unwrap();
+/// let nix = any2nix::ini_to_nix(&some_ini)?;
 ///
 /// println!("{}", nix);
 /// // Output:
@@ -119,7 +117,8 @@ where
 /// //     fNotVisibleNavmeshMoveDist = "2048.0000";
 /// //   };
 /// // }
-/// # assert_eq!(nix, "{\n  Actor = {\n    bUseNavMeshForMovement = \"1\";\n    fNotVisibleNavmeshMoveDist = \"2048.0000\";\n  };\n}")
+/// # assert_eq!(nix, "{\n  Actor = {\n    bUseNavMeshForMovement = \"1\";\n    fNotVisibleNavmeshMoveDist = \"2048.0000\";\n  };\n}");
+/// # Ok::<(), any2nix::Error>(())
 /// ```
 #[cfg(feature = "ini")]
 pub fn ini_to_nix(input: &str) -> Result<String, Error> {
@@ -142,9 +141,7 @@ pub fn ini_to_nix(input: &str) -> Result<String, Error> {
 ///     "name": "any2nix",
 ///     "version": "0.1.0"
 /// }"#;
-/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
-/// // production!
-/// let nix = any2nix::json_to_nix(&some_json).unwrap();
+/// let nix = any2nix::json_to_nix(&some_json)?;
 ///
 ///
 /// println!("{}", nix);
@@ -154,7 +151,8 @@ pub fn ini_to_nix(input: &str) -> Result<String, Error> {
 /// //   name = "any2nix";
 /// //   version = "0.1.0";
 /// // }
-/// # assert_eq!(nix, "{\n  name = \"any2nix\";\n  version = \"0.1.0\";\n}")
+/// # assert_eq!(nix, "{\n  name = \"any2nix\";\n  version = \"0.1.0\";\n}");
+/// # Ok::<(), any2nix::Error>(())
 /// ```
 #[cfg(feature = "json")]
 pub fn json_to_nix(input: &str) -> Result<String, Error> {
@@ -176,9 +174,7 @@ pub fn json_to_nix(input: &str) -> Result<String, Error> {
 /// [package]
 /// name = "any2nix"
 /// "#;
-/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
-/// // production!
-/// let nix = any2nix::toml_to_nix(&some_toml).unwrap();
+/// let nix = any2nix::toml_to_nix(&some_toml)?;
 ///
 /// println!("{}", nix);
 /// // Output:
@@ -188,7 +184,8 @@ pub fn json_to_nix(input: &str) -> Result<String, Error> {
 /// //     name = "any2nix";
 /// //   };
 /// // }
-/// # assert_eq!(nix, "{\n  package = {\n    name = \"any2nix\";\n  };\n}")
+/// # assert_eq!(nix, "{\n  package = {\n    name = \"any2nix\";\n  };\n}");
+/// # Ok::<(), any2nix::Error>(())
 /// ```
 #[cfg(feature = "toml")]
 pub fn toml_to_nix(input: &str) -> Result<String, Error> {
@@ -214,9 +211,7 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 ///     ports:
 ///       - "5432:5432"
 /// "#;
-/// // We use "unwrap" because this returns a "Result" type. Never use `unwrap` in
-/// // production!
-/// let nix = any2nix::yaml_to_nix(&some_yaml).unwrap();
+/// let nix = any2nix::yaml_to_nix(&some_yaml)?;
 ///
 /// println!("{}", nix);
 /// // Output:
@@ -232,7 +227,8 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 /// //     };
 /// //   };
 /// // }
-/// # assert_eq!(nix, "{\n  services = {\n    db = {\n      image = \"postgres:16-alpine\";\n      ports = [\n        \"5432:5432\"\n      ];\n      restart = \"always\";\n    };\n  };\n}")
+/// # assert_eq!(nix, "{\n  services = {\n    db = {\n      image = \"postgres:16-alpine\";\n      ports = [\n        \"5432:5432\"\n      ];\n      restart = \"always\";\n    };\n  };\n}");
+/// # Ok::<(), any2nix::Error>(())
 /// ```
 #[cfg(feature = "yaml")]
 pub fn yaml_to_nix(input: &str) -> Result<String, Error> {
