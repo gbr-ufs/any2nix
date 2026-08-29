@@ -96,9 +96,9 @@ where
 ///
 /// # Errors
 ///
-/// Returns [`Error::Ini`] in case the input cannot be parsed as valid INI.
+/// Returns [Error::Ini] in case the input cannot be parsed as valid INI.
 ///
-/// Returns [`Error::Nix`] if the parsed data structure cannot be serialized to Nix.
+/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
@@ -130,9 +130,9 @@ pub fn ini_to_nix(input: &str) -> Result<String, Error> {
 ///
 /// # Errors
 ///
-/// Returns [`Error::Json`] in case the input cannot be parsed as valid JSON.
+/// Returns [Error::Json] in case the input cannot be parsed as valid JSON.
 ///
-/// Returns [`Error::Nix`] if the parsed data structure cannot be serialized to Nix.
+/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
@@ -165,9 +165,9 @@ pub fn json_to_nix(input: &str) -> Result<String, Error> {
 ///
 /// # Errors
 ///
-/// Returns [`Error::Toml`] in case the input cannot be parsed as valid TOML.
+/// Returns [Error::Toml] in case the input cannot be parsed as valid TOML.
 ///
-/// Returns [`Error::Nix`] if the parsed data structure cannot be serialized to Nix.
+/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
@@ -199,9 +199,9 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 ///
 /// # Errors
 ///
-/// Returns [`Error::Yaml`] in case the input cannot be parsed as valid YAML.
+/// Returns [Error::Yaml] in case the input cannot be parsed as valid YAML.
 ///
-/// Returns [`Error::Nix`] if the parsed data structure cannot be serialized to Nix.
+/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
