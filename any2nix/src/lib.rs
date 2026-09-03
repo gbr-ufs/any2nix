@@ -68,13 +68,17 @@ use serde::Serialize;
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[cfg(feature = "ini")]
-    #[error("Invalid INI: {0}")]
+    #[error("Invalid INI: {}", match .0 {
+        serde_ini::de::Error::Custom(msg) => msg.strip_prefix("INI syntax error: ").unwrap_or(msg),
+        serde_ini::de::Error::UnexpectedEof => "unexpected end of file",
+        serde_ini::de::Error::InvalidState => "invalid state",
+    })]
     Ini(#[from] serde_ini::de::Error),
     #[cfg(feature = "json")]
     #[error("Invalid JSON: {0}")]
     Json(#[from] serde_json::Error),
     #[cfg(feature = "toml")]
-    #[error("Invalid TOML: {0}")]
+    #[error("Invalid TOML: {}", .0.message())]
     Toml(#[from] toml::de::Error),
     #[cfg(feature = "yaml")]
     #[error("Invalid YAML: {0}")]
