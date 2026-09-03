@@ -221,7 +221,7 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 /// ```
 #[cfg(feature = "yaml")]
 pub fn yaml_to_nix(input: &str) -> Result<String, Error> {
-    format_to_nix(|s| yaml_serde::from_str::<serde_json::Value>(s), input)
+    format_to_nix(|s| yaml_serde::from_str::<yaml_serde::Value>(s), input)
 }
 
 #[cfg(test)]
