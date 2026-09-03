@@ -16,11 +16,10 @@
 //! # Usage
 //!
 //! This crate is on [crates.io](https://crates.io/crates/any2nix) and can
-//! be added as a dependency to your project's `Cargo.toml`:
+//! be added as a dependency of your project:
 //!
-//! ```toml
-//! [dependencies]
-//! any2nix = "0.1"
+//! ```bash
+//! cargo add any2nix
 //! ```
 //!
 //! # Supported Formats
