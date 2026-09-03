@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-//! #![doc(html_favicon_url = "https://zipline.gs-101.dev/u/IRXrE8.ico")]
-//! #![doc(html_logo_url = "https://zipline.gs-101.dev/u/2QuAGa.svg")]
+#![doc(html_favicon_url = "https://zipline.gs-101.dev/u/IRXrE8.ico")]
+#![doc(html_logo_url = "https://zipline.gs-101.dev/u/2QuAGa.svg")]
 //! This crate provides simple functions for translating different formats
 //! to [Nix](https://nixos.org).
 //!
 //! They serve as higher-level options to
-//! [serialization functions](https://serde.rs/).
+//! [serialization functions][serde].
 //!
 //! Due to being based on serialization, the translation process has
 //! a chance to fail, primarily on invalid formatting.
@@ -30,9 +30,15 @@
 //! - [TOML](https://toml.io)
 //! - [YAML](https://yaml.org)
 //!
+//! Each format is gated behind its own [feature](https://doc.rust-lang.org/cargo/reference/features.html).
+//!
+//! The default feature enables all formats.
+//!
 //! # Examples: TOML
 //!
 //! ```rust
+//! # #[cfg(feature = "toml")]
+//! # {
 //! let some_toml = r#"
 //! [package]
 //! name = "any2nix"
@@ -52,6 +58,7 @@
 //! //   };
 //! // }
 //! # assert_eq!(nix, "{\n  package = {\n    name = \"any2nix\";\n  };\n}")
+//! # }
 //! ```
 
 use serde::Serialize;
@@ -196,9 +203,9 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 /// services:
 ///   db:
 ///     image: postgres:16-alpine
-///     restart: always
 ///     ports:
 ///       - "5432:5432"
+///     restart: always
 /// "#;
 /// let nix = any2nix::yaml_to_nix(&some_yaml)?;
 ///
