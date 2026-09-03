@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
-author.workspace = true
+authors.workspace = true
 name = "any2nix-cli"
 version = "0.1.0"
 edition = "2024"
