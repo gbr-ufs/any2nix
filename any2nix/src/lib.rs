@@ -66,9 +66,6 @@ pub enum Error {
     #[cfg(feature = "json")]
     #[error("Invalid JSON: {0}")]
     Json(#[from] serde_json::Error),
-    // This error message is different because Nix is a target, not a source.
-    #[error("Failed to serialize to Nix: {0}")]
-    Nix(#[from] ser_nix::Error),
     #[cfg(feature = "toml")]
     #[error("Invalid TOML: {0}")]
     Toml(#[from] toml::de::Error),
@@ -87,7 +84,7 @@ where
     Error: From<E>,
 {
     let format = from_str(input)?;
-    let nix = ser_nix::to_string(&format)?;
+    let nix = ser_nix::to_string(&format).expect("AST to Nix is infallible");
 
     Ok(nix)
 }
@@ -97,8 +94,6 @@ where
 /// # Errors
 ///
 /// Returns [Error::Ini] in case the input cannot be parsed as valid INI.
-///
-/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
@@ -130,8 +125,6 @@ pub fn ini_to_nix(input: &str) -> Result<String, Error> {
 /// # Errors
 ///
 /// Returns [Error::Json] in case the input cannot be parsed as valid JSON.
-///
-/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
@@ -165,8 +158,6 @@ pub fn json_to_nix(input: &str) -> Result<String, Error> {
 ///
 /// Returns [Error::Toml] in case the input cannot be parsed as valid TOML.
 ///
-/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
-///
 /// # Examples
 ///
 /// ```rust
@@ -197,8 +188,6 @@ pub fn toml_to_nix(input: &str) -> Result<String, Error> {
 /// # Errors
 ///
 /// Returns [Error::Yaml] in case the input cannot be parsed as valid YAML.
-///
-/// Returns [Error::Nix] if the parsed data structure cannot be serialized to Nix.
 ///
 /// # Examples
 ///
