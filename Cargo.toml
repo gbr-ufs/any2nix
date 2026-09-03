@@ -10,7 +10,6 @@ members = [
   "any2nix-cli",
   "any2nix-gui",
   "any2nix-site",
-  "any2nix-web",
 ]
 
 [workspace.dependencies]
