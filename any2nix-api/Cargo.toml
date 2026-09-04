@@ -18,3 +18,27 @@ keywords = ["api", "nix", "http", "converter", "json"]
 
 [dependencies]
 any2nix.workspace = true
+axum = "0.8.9"
+serde = "1.0.229"
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread"] }
+tower-http = { version = "0.7.1", optional = true, features = ["trace"] }
+tracing = { version = "0.1.44", optional = true }
+tracing-subscriber = { version = "0.3.23", optional = true, features = [
+  "env-filter",
+] }
+utoipa = { version = "5.5.0", optional = true, features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "9.0.2", optional = true, features = [
+  "axum",
+  "debug-embed",
+] }
+
+[features]
+default = ["ini", "json", "toml", "yaml"]
+full = ["ini", "json", "toml", "yaml", "utoipa", "utoipa-swagger-ui", "trace"]
+ini = ["any2nix/ini"]
+json = ["any2nix/json"]
+toml = ["any2nix/toml"]
+yaml = ["any2nix/yaml"]
+trace = ["dep:tower-http", "dep:tracing", "dep:tracing-subscriber"]
+utoipa = ["dep:utoipa"]
+utoipa-swagger-ui = ["utoipa", "dep:utoipa-swagger-ui"]

@@ -13,9 +13,7 @@ members = [
 ]
 
 [workspace.dependencies]
-any2nix = { version = "0.1.0", path = "./any2nix" }
-any2nix-api = { version = "0.1.0", path = "./any2nix-api" }
-any2nix-site = { version = "0.1.0", path = "./any2nix-site" }
+any2nix = { version = "0.1.0", path = "./any2nix", default-features = false }
 
 [workspace.package]
 authors = [ "Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>" ]

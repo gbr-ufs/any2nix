@@ -1,0 +1,440 @@
+// SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+// TODO: Remove manual descriptions once utoipa supports docstring links.
+
+#![doc(html_favicon_url = "https://zipline.gs-101.dev/u/IRXrE8.ico")]
+#![doc(html_logo_url = "https://zipline.gs-101.dev/u/2QuAGa.svg")]
+//! This crate provides an [HTTP](https://httpwg.org/specs/) server to be used as
+//! an [OpenAPI](https://www.openapis.org/)-compatible API for translating different
+//! formats to [Nix](https://nixos.org).
+//!
+//! It exposes its own router for integration with other [axum]-based programs.
+//!
+//! # Usage
+//!
+//! This crate is on [crates.io](https://crates.io/crates/any2nix) and can
+//! be added as a dependency of your project:
+//!
+//! ```bash
+//! cargo add any2nix-api
+//! ```
+//!
+//! # Supported Formats
+//!
+//! - [INI](https://en.wikipedia.org/wiki/INI_file)
+//! - [JSON](https://www.json.org)
+//! - [TOML](https://toml.io)
+//! - [YAML](https://yaml.org)
+//!
+//! Each format is gated behind its own [feature](https://doc.rust-lang.org/cargo/reference/features.html).
+//!
+//! The default feature enables all formats.
+//!
+//! # Crate Features
+//!
+//! Besides the features for each format, this crate also exposes the following
+//! features:
+//!
+//! - `trace`: Enables tracing of incoming HTTP requests through [tower-http] and [tracing].
+//! - `utoipa`: Enables OpenAPI schema generation through [utoipa].
+//! - `utoipa-swagger-ui`: Enables the [Swagger UI](https://swagger.io/tools/swagger-ui/) for the API through [utoipa-swagger-ui].
+//!
+//! # Examples: Adding it as an API to another program
+//!
+//! 1. Add it as dependency of your program:
+//!
+//! ```bash
+//! cargo add any2nix-api
+//! ```
+//!
+//! 2. Add the router to your [axum] program through [nesting][axum::Router::nest]:
+//!
+//! ```rust,no_run
+//! # #[tokio::main]
+//! # async fn main() {
+//! use axum::{routing::get, Router};
+//! use tokio::net::TcpListener;
+//!
+//! let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+//! let api_router = any2nix_api::app();
+//! let app = Router::new().route("/", get(|| async { "Hello, World!"})).nest("/api", api_router);
+//!
+//! axum::serve(listener, app).await.unwrap();
+//! # }
+//! ```
+//!
+//! # Examples: Sending TOML to the API
+//!
+//! ```bash
+//! curl \
+//! -d '{"input": "[package]\nname = \"any2nix\""}' \
+//! -X POST \
+//! -H "Content-Type: application/json" \
+//! http://localhost:3000/v1/toml
+//! # Output:
+//! #
+//! # {"nix":"{\n  package = {\n    name = \"any2nix\";\n  };\n}"}
+//! ```
+
+use axum::{
+    Json, Router,
+    extract::Path,
+    http::StatusCode,
+    response::{IntoResponse, Response},
+    routing::{get, post},
+};
+use serde::{Deserialize, Serialize};
+#[cfg(feature = "trace")]
+use tower_http::trace::TraceLayer;
+#[cfg(feature = "utoipa")]
+use utoipa::OpenApi;
+
+/// Enumeration of the currently supported formats for conversion.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "lowercase")]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+pub enum Format {
+    #[cfg(feature = "ini")]
+    Ini,
+    #[cfg(feature = "json")]
+    Json,
+    #[cfg(feature = "toml")]
+    Toml,
+    #[cfg(feature = "yaml")]
+    Yaml,
+}
+
+/// Response structure for the root endpoint. Inclues crate information.
+#[derive(Serialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+pub struct RootResponse {
+    pub description: String,
+    #[cfg(feature = "utoipa-swagger-ui")]
+    pub docs: String,
+    pub name: String,
+    #[cfg(feature = "utoipa")]
+    pub openapi: String,
+    pub version: String,
+}
+
+/// Request structure for a conversion. Includes only one "input" key.
+#[derive(Deserialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+pub struct ConvertRequest {
+    /// Houses the data that will be converted.
+    pub input: String,
+}
+
+/// Response structure for a successful conversion. Includes only one "nix"
+/// key.
+#[derive(Serialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+pub struct ConvertResponse {
+    /// Houses the converted data.
+    pub nix: String,
+}
+
+/// Response structure for an unsuccessful conversion. Includes only one "error" key.
+#[derive(Serialize)]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+pub struct ErrorResponse {
+    /// Houses the error message of the error.
+    pub error: String,
+}
+
+/// Error type of the API.
+#[derive(Debug)]
+pub struct Error(any2nix::Error);
+
+impl IntoResponse for Error {
+    fn into_response(self) -> Response {
+        let body = Json(ErrorResponse {
+            error: self.0.to_string(),
+        });
+        (StatusCode::BAD_REQUEST, body).into_response()
+    }
+}
+
+/// Root endpoint of the API. Returns crate information.
+#[cfg_attr(
+    feature = "utoipa",
+    utoipa::path(
+        get,
+        path = "/",
+        responses(
+            (body = RootResponse, description = "Root endpoint of the API", status = 200)
+        ),
+        summary = "Root endpoint of the API",
+    )
+)]
+pub async fn get_root() -> Json<RootResponse> {
+    Json(RootResponse {
+        description: env!("CARGO_PKG_DESCRIPTION").to_string(),
+        #[cfg(feature = "utoipa-swagger-ui")]
+        docs: "/docs".to_string(),
+        name: env!("CARGO_PKG_NAME").to_string(),
+        #[cfg(feature = "utoipa")]
+        openapi: "/api-docs/openapi.json".to_string(),
+        version: env!("CARGO_PKG_VERSION").to_string(),
+    })
+}
+
+/// Converts the [supported formats][crate#supported-formats] to [Nix](https://nixos.org).
+///
+/// See [ConvertRequest] and [ConvertResponse] for the request and response
+/// schema, respectively.
+///
+/// # Errors
+///
+/// Returns [Error::Conversion] in case something went wrong during the
+/// conversion processs.
+///
+/// [axum::extract::Path].
+#[cfg_attr(
+    feature = "utoipa",
+    utoipa::path(
+        description = "Converts input data from the supported formats to Nix",
+        path = "/v1/{format}",
+                params(
+            ("format" = Format, Path, description = "Source format to convert from")
+        ),
+        post,
+        request_body = ConvertRequest,
+        responses(
+            (body = ConvertResponse, description = "Conversion successful", status = 200),
+            (body = ErrorResponse, description = "Conversion error", status = 400),
+            (description = "Unsupported format", status = 404)
+        ),
+        summary = "Converts the supported formats to Nix",
+    )
+)]
+pub async fn post_format(
+    Path(format): Path<Format>,
+    Json(payload): Json<ConvertRequest>,
+) -> Result<Json<ConvertResponse>, Error> {
+    let converter = match format {
+        #[cfg(feature = "ini")]
+        Format::Ini => any2nix::ini_to_nix,
+        #[cfg(feature = "json")]
+        Format::Json => any2nix::json_to_nix,
+        #[cfg(feature = "toml")]
+        Format::Toml => any2nix::toml_to_nix,
+        #[cfg(feature = "yaml")]
+        Format::Yaml => any2nix::yaml_to_nix,
+    };
+    let nix = converter(&payload.input).map_err(Error)?;
+
+    Ok(Json(ConvertResponse { nix }))
+}
+
+/// Generator of the program's router. Exposed publicly for integration with other
+/// [axum]-based programs.
+///
+/// Exposes the "/v1/{format}" route, such that {format} is one of the
+/// [supported formats][crate#supported-formats].
+///
+/// # Crate Features
+///
+/// With `utoipa-swagger-ui` enabled, it also exposes the "/docs" route for the
+/// [Swagger UI](https://swagger.io/tools/swagger-ui/) of the API.
+///
+/// # Examples: Adding it as an API to another program through [nesting][axum::Router::nest]
+///
+///
+/// ```rust,no_run
+/// # #[tokio::main]
+/// # async fn main() {
+/// use axum::{routing::get, Router};
+/// use tokio::net::TcpListener;
+///
+/// let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+/// let api_router = any2nix_api::app();
+/// let app = Router::new().route("/", get(|| async { "Hello, World!"})).nest("/api", api_router);
+///
+/// axum::serve(listener, app).await.unwrap();
+/// # }
+/// ```
+pub fn app() -> Router {
+    let router = Router::new()
+        .route("/", get(get_root))
+        .route("/v1/{format}", post(post_format));
+    #[cfg(feature = "utoipa-swagger-ui")]
+    let router = {
+        let config = utoipa_swagger_ui::Config::new(["/api-docs/openapi.json"]).use_base_layout();
+
+        router.merge(
+            utoipa_swagger_ui::SwaggerUi::new("/docs")
+                .config(config)
+                .url("/api-docs/openapi.json", ApiDoc::openapi()),
+        )
+    };
+
+    #[cfg(feature = "trace")]
+    let router = router.layer(TraceLayer::new_for_http());
+
+    router
+}
+
+#[cfg(feature = "utoipa")]
+#[derive(OpenApi)]
+#[openapi(
+    components(schemas(ConvertRequest, ConvertResponse, ErrorResponse, Format, RootResponse)),
+    info(contact(
+        name = "GitHub Issues",
+        url = "https://github.com/gbr-ufs/any2nix/issues"
+    )),
+    paths(get_root, post_format)
+)]
+struct ApiDoc;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn returns_crate_information() {
+        let response = get_root().await;
+
+        assert_eq!(response.0.description, env!("CARGO_PKG_DESCRIPTION"));
+        assert_eq!(response.0.name, env!("CARGO_PKG_NAME"));
+        assert_eq!(response.0.version, env!("CARGO_PKG_VERSION"));
+    }
+
+    #[cfg(feature = "ini")]
+    #[tokio::test]
+    async fn converts_valid_ini() {
+        let request = ConvertRequest {
+            input: "enable-mouse = no\n[dmenu]\nmode = index".to_string(),
+        };
+        let response = post_format(Path(Format::Ini), Json(request)).await.unwrap();
+        let expected = r#"{
+  dmenu = {
+    mode = "index";
+  };
+  enable-mouse = "no";
+}"#;
+
+        assert_eq!(response.nix, expected);
+    }
+
+    #[cfg(feature = "ini")]
+    #[tokio::test]
+    async fn error_response_on_invalid_ini() {
+        let request = ConvertRequest {
+            input: "[broken\nnonsense = \"".to_string(),
+        };
+        let response = post_format(Path(Format::Ini), Json(request))
+            .await
+            .into_response();
+        let expected_status = StatusCode::BAD_REQUEST;
+        let expected_body = Json(ErrorResponse {
+            error: "INI parsing error: expected a key, found an unexpected character at line 2 column 1".to_string(),
+        });
+        let expected = (expected_status, expected_body).into_response();
+
+        assert_eq!(response.status(), expected.status());
+    }
+
+    #[cfg(feature = "ini")]
+    #[tokio::test]
+    async fn errors_on_invalid_ini() {
+        let request = ConvertRequest {
+            input: "[broken\nnonsense = \"".to_string(),
+        };
+        let response = post_format(Path(Format::Ini), Json(request)).await;
+
+        assert!(matches!(response, Err(Error(_))));
+    }
+
+    #[cfg(feature = "json")]
+    #[tokio::test]
+    async fn converts_valid_json() {
+        let request = ConvertRequest {
+            input: r#"{"name": "forgejo"}"#.to_string(),
+        };
+        let response = post_format(Path(Format::Json), Json(request))
+            .await
+            .unwrap();
+        let expected = r#"{
+  name = "forgejo";
+}"#;
+
+        assert_eq!(response.nix, expected);
+    }
+
+    #[cfg(feature = "json")]
+    #[tokio::test]
+    async fn errors_on_invalid_json() {
+        let request = ConvertRequest {
+            input: r#"{"unclosed": ""#.to_string(),
+        };
+        let response = post_format(Path(Format::Json), Json(request)).await;
+
+        assert!(matches!(response, Err(Error(_))));
+    }
+
+    #[cfg(feature = "toml")]
+    #[tokio::test]
+    async fn converts_valid_toml() {
+        let request = ConvertRequest {
+            input: "[package]\nname = \"any2nix\"".to_string(),
+        };
+        let response = post_format(Path(Format::Toml), Json(request))
+            .await
+            .unwrap();
+        let expected = r#"{
+  package = {
+    name = "any2nix";
+  };
+}"#;
+
+        assert_eq!(response.nix, expected);
+    }
+
+    #[cfg(feature = "toml")]
+    #[tokio::test]
+    async fn errors_on_invalid_toml() {
+        let request = ConvertRequest {
+            input: "[broken\ndoesnt_work = foo".to_string(),
+        };
+        let response = post_format(Path(Format::Toml), Json(request)).await;
+
+        assert!(matches!(response, Err(Error(_))));
+    }
+
+    #[cfg(feature = "yaml")]
+    #[tokio::test]
+    async fn converts_valid_yaml() {
+        let request = ConvertRequest {
+            input: "name: any2nix".to_string(),
+        };
+        let response = post_format(Path(Format::Yaml), Json(request))
+            .await
+            .unwrap();
+        let expected = r#"{
+  name = "any2nix";
+}"#;
+
+        assert_eq!(response.nix, expected);
+    }
+
+    #[cfg(feature = "yaml")]
+    #[tokio::test]
+    async fn errors_on_invalid_yaml() {
+        let request = ConvertRequest {
+            input: "[unclosed, sequence".to_string(),
+        };
+        let response = post_format(Path(Format::Yaml), Json(request)).await;
+
+        assert!(matches!(response, Err(Error(_))));
+    }
+
+    #[tokio::test]
+    async fn returns_valid_router() {
+        let router = app();
+
+        assert!(router.has_routes());
+    }
+}
