@@ -44,6 +44,7 @@
             cargo-audit
             cargo-llvm-cov
             cocogitto
+            dockerfile-language-server
             htmx-lsp
             mdbook
             nixd
