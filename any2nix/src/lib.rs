@@ -247,7 +247,6 @@ enable-mouse = no
 mode = index
 ";
         let nix = ini_to_nix(ini);
-
         let expected = r#"{
   dmenu = {
     mode = "index";
@@ -276,7 +275,6 @@ nonsense = "
     "name": "forgejo"
 }"#;
         let nix = json_to_nix(json);
-
         let expected = r#"{
   name = "forgejo";
 }"#;
@@ -303,7 +301,6 @@ nonsense = "
 name = "any2nix"
 "#;
         let nix = toml_to_nix(toml);
-
         let expected = r#"{
   package = {
     name = "any2nix";
@@ -330,7 +327,6 @@ doesnt_work = foo";
   - BR
   - NO";
         let nix = yaml_to_nix(yaml);
-
         let expected = r#"{
   countries = [
     "BR"
