@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[formatting]
+reorder_arrays = true
+reorder_inline_tables = true
+reorder_keys = true
