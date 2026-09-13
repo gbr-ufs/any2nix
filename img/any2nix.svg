@@ -103,10 +103,12 @@ SPDX-License-Identifier: CC-BY-4.0
        y2="937.71399" /></defs><g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1" /><g
+     id="layer1"
+     transform="translate(-4.3986,-7.6895)" /><g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Ferris"><g
+     inkscape:label="Ferris"
+     transform="translate(-4.3986,-7.6895)"><g
        style="clip-rule:evenodd;fill-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421"
        id="g10"
        transform="matrix(0.31122218,0,0,0.31122218,56.690807,190.38103)"><g
@@ -187,7 +189,8 @@ SPDX-License-Identifier: CC-BY-4.0
     </g></g></g><g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="File"><g
+     inkscape:label="File"
+     transform="translate(-4.3986,-7.6895)"><g
        style="fill:#000000"
        id="g11"
        transform="matrix(2.5516062,0,0,2.5516062,-36.595313,69.717607)"><g
@@ -204,7 +207,8 @@ SPDX-License-Identifier: CC-BY-4.0
 </g></g></g><g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="Nix"><g
+     inkscape:label="Nix"
+     transform="translate(-4.3986,-7.6895)"><g
        id="g2-5"
        transform="matrix(0.36140062,0,0,0.36140062,260.87687,458.57984)"
        style="stroke-width:1.00006"><path
