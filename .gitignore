@@ -12,9 +12,6 @@
 !.github/
 !.gitignore
 
-# Dependencies.
-node_modules/
-
 # Generated files.
 lcov.info
 target/
