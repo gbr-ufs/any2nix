@@ -61,7 +61,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
-      - run: cargo clippy
+      - run: cargo clippy --all-targets --workspace -- -D warnings
   cargo-llvm-cov:
     permissions: {}
     runs-on: ubuntu-latest
