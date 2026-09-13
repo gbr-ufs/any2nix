@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+authors.workspace = true
+categories = ["web-programming"]
+description = "Web interface for translating from various formats to Nix."
+edition = "2024"
+keywords = ["converter", "nix", "web"]
+license.workspace = true
+name = "any2nix-website"
+repository.workspace = true
+version = "0.1.0"
+
+[dependencies]
+any2nix.workspace = true
+any2nix-api = { optional = true, path = "../any2nix-api", version = "0.1.0" }
+askama = "0.16.1"
+axum = { features = ["tracing"], version = "0.8.9" }
+mime_guess = "2.0.5"
+rust-embed = { features = ["debug-embed", "mime-guess"], version = "8.12.0" }
+serde = "1.0.229"
+tokio = { features = ["macros", "rt-multi-thread"], version = "1.53.1" }
+tower-http = { features = ["trace"], optional = true, version = "0.7.1" }
+tracing = { optional = true, version = "0.1.44" }
+tracing-subscriber = { features = [
+  "env-filter",
+], optional = true, version = "0.3.23" }
+
+[features]
+api = ["dep:any2nix-api"]
+default = ["ini", "json", "toml", "yaml"]
+full = ["ini", "json", "toml", "trace", "utoipa-swagger-ui", "yaml"]
+ini = ["any2nix/ini"]
+json = ["any2nix/json"]
+toml = ["any2nix/toml"]
+trace = [
+  "any2nix-api/trace",
+  "axum/tracing",
+  "dep:tower-http",
+  "dep:tracing",
+  "dep:tracing-subscriber",
+  "tower-http/trace",
+  "tracing-subscriber/env-filter",
+]
+utoipa = ["any2nix-api/utoipa", "api"]
+utoipa-swagger-ui = ["any2nix-api/utoipa-swagger-ui", "utoipa"]
+yaml = ["any2nix/yaml"]
