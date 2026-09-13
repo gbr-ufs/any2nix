@@ -33,6 +33,12 @@
 //!
 //! The default feature enables all formats.
 //!
+//! # Crate Features
+//! Besides the features for each format, this crate also exposes the following
+//! features:
+//!
+//! - `utoipa`: Enables OpenAPI schema generation through [utoipa].
+//!
 //! # Examples: TOML
 //!
 //! ```rust
@@ -60,7 +66,8 @@
 //! # }
 //! ```
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+use strum::{EnumIter, IntoEnumIterator, VariantArray};
 
 /// Aggregator of all errors from all used serializers (translators)
 /// for simpler error handling.
@@ -82,6 +89,55 @@ pub enum Error {
     #[cfg(feature = "yaml")]
     #[error("Invalid YAML: {0}")]
     Yaml(#[from] yaml_serde::Error),
+}
+
+/// Enumeration of the currently supported formats for conversion.
+#[derive(Clone, Copy, Debug, Deserialize, EnumIter, Eq, PartialEq, Serialize, VariantArray)]
+#[serde(rename_all = "lowercase")]
+#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+pub enum Format {
+    #[cfg(feature = "ini")]
+    Ini,
+    #[cfg(feature = "json")]
+    Json,
+    #[cfg(feature = "toml")]
+    Toml,
+    #[cfg(feature = "yaml")]
+    Yaml,
+}
+
+impl std::fmt::Display for Format {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            #[cfg(feature = "ini")]
+            Self::Ini => write!(f, "INI"),
+            #[cfg(feature = "json")]
+            Self::Json => write!(f, "JSON"),
+            #[cfg(feature = "toml")]
+            Self::Toml => write!(f, "TOML"),
+            #[cfg(feature = "yaml")]
+            Self::Yaml => write!(f, "YAML"),
+        }
+    }
+}
+
+impl Format {
+    pub fn iter() -> impl Iterator<Item = Self> {
+        <Self as IntoEnumIterator>::iter()
+    }
+
+    pub fn to_nix(&self, input: &str) -> Result<String, Error> {
+        match self {
+            #[cfg(feature = "ini")]
+            Self::Ini => ini_to_nix(input),
+            #[cfg(feature = "json")]
+            Self::Json => json_to_nix(input),
+            #[cfg(feature = "toml")]
+            Self::Toml => toml_to_nix(input),
+            #[cfg(feature = "yaml")]
+            Self::Yaml => yaml_to_nix(input),
+        }
+    }
 }
 
 /// Wrapper around deserializer functions to have them serialize the formats to Nix.
