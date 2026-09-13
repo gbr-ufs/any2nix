@@ -4,14 +4,14 @@
 
 [package]
 authors.workspace = true
-name = "any2nix-cli"
-version = "0.1.0"
-edition = "2024"
-license.workspace = true
-description = "Command-line application for translating from various formats to Nix."
-repository.workspace = true
 categories = ["command-line-utilities", "config", "development-tools"]
-keywords = ["cli", "nix", "converter", "serde", "config"]
+description = "Command-line application for translating from various formats to Nix."
+edition = "2024"
+keywords = ["cli", "config", "converter", "nix", "serde"]
+license.workspace = true
+name = "any2nix-cli"
+repository.workspace = true
+version = "0.1.0"
 
 [dependencies]
 any2nix.workspace = true

@@ -4,14 +4,14 @@
 
 [package]
 authors.workspace = true
-name = "any2nix-gui"
-version = "0.1.0"
-edition = "2024"
-license.workspace = true
-description = "Graphical interface for translating from various formats to Nix."
-repository.workspace = true
 categories = ["gui"]
-keywords = ["gui", "nix", "converter", "desktop"]
+description = "Graphical interface for translating from various formats to Nix."
+edition = "2024"
+keywords = ["converter", "desktop", "gui", "nix"]
+license.workspace = true
+name = "any2nix-gui"
+repository.workspace = true
+version = "0.1.0"
 
 [dependencies]
 any2nix.workspace = true
