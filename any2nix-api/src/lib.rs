@@ -78,6 +78,12 @@
 //! # {"nix":"{\n  package = {\n    name = \"any2nix\";\n  };\n}"}
 //! ```
 
+pub mod requests;
+pub mod responses;
+
+use crate::requests::ConvertRequest;
+use crate::responses::{ConvertResponse, ErrorResponse, RootResponse};
+use any2nix::Format;
 use axum::{
     Json, Router,
     extract::Path,
@@ -85,64 +91,10 @@ use axum::{
     response::{IntoResponse, Response},
     routing::{get, post},
 };
-use serde::{Deserialize, Serialize};
 #[cfg(feature = "trace")]
 use tower_http::trace::TraceLayer;
 #[cfg(feature = "utoipa")]
 use utoipa::OpenApi;
-
-/// Enumeration of the currently supported formats for conversion.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
-#[serde(rename_all = "lowercase")]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
-pub enum Format {
-    #[cfg(feature = "ini")]
-    Ini,
-    #[cfg(feature = "json")]
-    Json,
-    #[cfg(feature = "toml")]
-    Toml,
-    #[cfg(feature = "yaml")]
-    Yaml,
-}
-
-/// Response structure for the root endpoint. Inclues crate information.
-#[derive(Serialize)]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
-pub struct RootResponse {
-    pub description: String,
-    #[cfg(feature = "utoipa-swagger-ui")]
-    pub docs: String,
-    pub name: String,
-    #[cfg(feature = "utoipa")]
-    pub openapi: String,
-    pub version: String,
-}
-
-/// Request structure for a conversion. Includes only one "input" key.
-#[derive(Deserialize)]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
-pub struct ConvertRequest {
-    /// Houses the data that will be converted.
-    pub input: String,
-}
-
-/// Response structure for a successful conversion. Includes only one "nix"
-/// key.
-#[derive(Serialize)]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
-pub struct ConvertResponse {
-    /// Houses the converted data.
-    pub nix: String,
-}
-
-/// Response structure for an unsuccessful conversion. Includes only one "error" key.
-#[derive(Serialize)]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
-pub struct ErrorResponse {
-    /// Houses the error message of the error.
-    pub error: String,
-}
 
 /// Error type of the API.
 #[derive(Debug)]
@@ -214,17 +166,7 @@ pub async fn post_format(
     Path(format): Path<Format>,
     Json(payload): Json<ConvertRequest>,
 ) -> Result<Json<ConvertResponse>, Error> {
-    let converter = match format {
-        #[cfg(feature = "ini")]
-        Format::Ini => any2nix::ini_to_nix,
-        #[cfg(feature = "json")]
-        Format::Json => any2nix::json_to_nix,
-        #[cfg(feature = "toml")]
-        Format::Toml => any2nix::toml_to_nix,
-        #[cfg(feature = "yaml")]
-        Format::Yaml => any2nix::yaml_to_nix,
-    };
-    let nix = converter(&payload.input).map_err(Error)?;
+    let nix = format.to_nix(&payload.input).map_err(Error)?;
 
     Ok(Json(ConvertResponse { nix }))
 }
@@ -304,24 +246,7 @@ mod tests {
 
     #[cfg(feature = "ini")]
     #[tokio::test]
-    async fn converts_valid_ini() {
-        let request = ConvertRequest {
-            input: "enable-mouse = no\n[dmenu]\nmode = index".to_string(),
-        };
-        let response = post_format(Path(Format::Ini), Json(request)).await.unwrap();
-        let expected = r#"{
-  dmenu = {
-    mode = "index";
-  };
-  enable-mouse = "no";
-}"#;
-
-        assert_eq!(response.nix, expected);
-    }
-
-    #[cfg(feature = "ini")]
-    #[tokio::test]
-    async fn error_response_on_invalid_ini() {
+    async fn errors_on_invalid_format() {
         let request = ConvertRequest {
             input: "[broken\nnonsense = \"".to_string(),
         };
@@ -339,102 +264,25 @@ mod tests {
 
     #[cfg(feature = "ini")]
     #[tokio::test]
-    async fn errors_on_invalid_ini() {
+    async fn converts_valid_format() {
         let request = ConvertRequest {
-            input: "[broken\nnonsense = \"".to_string(),
+            input: "enable-mouse = no\n[dmenu]\nmode = index".to_string(),
         };
-        let response = post_format(Path(Format::Ini), Json(request)).await;
-
-        assert!(matches!(response, Err(Error(_))));
-    }
-
-    #[cfg(feature = "json")]
-    #[tokio::test]
-    async fn converts_valid_json() {
-        let request = ConvertRequest {
-            input: r#"{"name": "forgejo"}"#.to_string(),
-        };
-        let response = post_format(Path(Format::Json), Json(request))
-            .await
-            .unwrap();
+        let response = post_format(Path(Format::Ini), Json(request)).await.unwrap();
         let expected = r#"{
-  name = "forgejo";
-}"#;
-
-        assert_eq!(response.nix, expected);
-    }
-
-    #[cfg(feature = "json")]
-    #[tokio::test]
-    async fn errors_on_invalid_json() {
-        let request = ConvertRequest {
-            input: r#"{"unclosed": ""#.to_string(),
-        };
-        let response = post_format(Path(Format::Json), Json(request)).await;
-
-        assert!(matches!(response, Err(Error(_))));
-    }
-
-    #[cfg(feature = "toml")]
-    #[tokio::test]
-    async fn converts_valid_toml() {
-        let request = ConvertRequest {
-            input: "[package]\nname = \"any2nix\"".to_string(),
-        };
-        let response = post_format(Path(Format::Toml), Json(request))
-            .await
-            .unwrap();
-        let expected = r#"{
-  package = {
-    name = "any2nix";
+  dmenu = {
+    mode = "index";
   };
+  enable-mouse = "no";
 }"#;
 
         assert_eq!(response.nix, expected);
     }
 
-    #[cfg(feature = "toml")]
     #[tokio::test]
-    async fn errors_on_invalid_toml() {
-        let request = ConvertRequest {
-            input: "[broken\ndoesnt_work = foo".to_string(),
-        };
-        let response = post_format(Path(Format::Toml), Json(request)).await;
+    async fn returns_functional_router() {
+        let app = app();
 
-        assert!(matches!(response, Err(Error(_))));
-    }
-
-    #[cfg(feature = "yaml")]
-    #[tokio::test]
-    async fn converts_valid_yaml() {
-        let request = ConvertRequest {
-            input: "name: any2nix".to_string(),
-        };
-        let response = post_format(Path(Format::Yaml), Json(request))
-            .await
-            .unwrap();
-        let expected = r#"{
-  name = "any2nix";
-}"#;
-
-        assert_eq!(response.nix, expected);
-    }
-
-    #[cfg(feature = "yaml")]
-    #[tokio::test]
-    async fn errors_on_invalid_yaml() {
-        let request = ConvertRequest {
-            input: "[unclosed, sequence".to_string(),
-        };
-        let response = post_format(Path(Format::Yaml), Json(request)).await;
-
-        assert!(matches!(response, Err(Error(_))));
-    }
-
-    #[tokio::test]
-    async fn returns_valid_router() {
-        let router = app();
-
-        assert!(router.has_routes());
+        assert!(app.has_routes())
     }
 }

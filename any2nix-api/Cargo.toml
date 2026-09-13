@@ -4,41 +4,41 @@
 
 [package]
 authors.workspace = true
-name = "any2nix-api"
-version = "0.1.0"
-edition = "2024"
-license.workspace = true
+categories = ["web-programming", "web-programming::http-server"]
 description = """
 JSON-based server that can be used as an API for translating from different
 formats to Nix.
 """
+edition = "2024"
+keywords = ["api", "converter", "http", "json", "nix"]
+license.workspace = true
+name = "any2nix-api"
 repository.workspace = true
-categories = ["web-programming::http-server", "web-programming"]
-keywords = ["api", "nix", "http", "converter", "json"]
+version = "0.1.0"
 
 [dependencies]
 any2nix.workspace = true
 axum = "0.8.9"
 serde = "1.0.229"
-tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread"] }
-tower-http = { version = "0.7.1", optional = true, features = ["trace"] }
-tracing = { version = "0.1.44", optional = true }
-tracing-subscriber = { version = "0.3.23", optional = true, features = [
+tokio = { features = ["macros", "rt-multi-thread"], version = "1.53.1" }
+tower-http = { features = ["trace"], optional = true, version = "0.7.1" }
+tracing = { optional = true, version = "0.1.44" }
+tracing-subscriber = { features = [
   "env-filter",
-] }
-utoipa = { version = "5.5.0", optional = true, features = ["axum_extras"] }
-utoipa-swagger-ui = { version = "9.0.2", optional = true, features = [
+], optional = true, version = "0.3.23" }
+utoipa = { features = ["axum_extras"], optional = true, version = "5.5.0" }
+utoipa-swagger-ui = { features = [
   "axum",
   "debug-embed",
-] }
+], optional = true, version = "9.0.2" }
 
 [features]
 default = ["ini", "json", "toml", "yaml"]
-full = ["ini", "json", "toml", "yaml", "utoipa", "utoipa-swagger-ui", "trace"]
+full = ["ini", "json", "toml", "trace", "utoipa", "utoipa-swagger-ui", "yaml"]
 ini = ["any2nix/ini"]
 json = ["any2nix/json"]
 toml = ["any2nix/toml"]
-yaml = ["any2nix/yaml"]
 trace = ["dep:tower-http", "dep:tracing", "dep:tracing-subscriber"]
-utoipa = ["dep:utoipa"]
-utoipa-swagger-ui = ["utoipa", "dep:utoipa-swagger-ui"]
+utoipa = ["any2nix/utoipa", "dep:utoipa"]
+utoipa-swagger-ui = ["dep:utoipa-swagger-ui", "utoipa"]
+yaml = ["any2nix/yaml"]
