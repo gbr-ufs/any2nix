@@ -26,5 +26,5 @@ script = """
   set -e
 
   cog check
-  cargo cov
+  cargo cov --workspace
 """

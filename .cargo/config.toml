@@ -8,5 +8,4 @@ cov = [
   "--lcov",
   "--output-path",
   "lcov.info",
-  "--workspace",
 ]

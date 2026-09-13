@@ -73,7 +73,7 @@ jobs:
       - uses: taiki-e/install-action@a2a5f6e99e1a31540baa0468acfa302cff0f359f # v2.86.4
         with:
           tool: cargo-llvm-cov@0.9.0
-      - run: cargo cov
+      - run: cargo cov --workspace
       - name: Codecov Coverage
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
