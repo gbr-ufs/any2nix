@@ -6,6 +6,7 @@ services:
   any2nix-api:
     build:
       context: ..
+      dockerfile: any2nix-api/Dockerfile
       target: prod
     ports:
       - 3000:3000
