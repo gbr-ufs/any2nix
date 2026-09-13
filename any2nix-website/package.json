@@ -1,0 +1,15 @@
+{
+  "name": "any2nix-website",
+  "dependencies": {
+    "beercss": "^5.0.3",
+    "codejar": "^4.3.0",
+    "htmx.org": "^2.0.10",
+    "material-symbols": "^0.47.2",
+    "prismjs": "^1.30.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "private": true,
+  "type": "module"
+}

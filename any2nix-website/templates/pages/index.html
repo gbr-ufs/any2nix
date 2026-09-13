@@ -1,0 +1,46 @@
+{#
+SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+
+  SPDX-License-Identifier: GPL-3.0-or-later
+#}
+
+  <!doctype html>
+  <html lang="{{ i18n.lang }}">
+    <head>
+      <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+      <link rel="icon" href="/assets/img/favicon.ico">
+      <link rel="stylesheet" href="/assets/css/index.css">
+      <meta charset="utf-8">
+      <meta name="author" content="Gabriel Santos de Souza">
+      <meta name="description" content="{{ env!("CARGO_PKG_DESCRIPTION") }}">
+      <meta name="license" content="{{ env!("CARGO_PKG_LICENSE") }}">
+      <meta name="viewport" content="width=device-width">
+      <script type="module" src="/assets/js/index.js"></script>
+      <title>any2nix</title>
+    </head>
+    <body hx-boost="true">
+      <a href="#main" class="a11y button elevate skip-to-content">{{ i18n.skip_to_content }}</a>
+      <header>
+        <nav>
+          <h6 class="max">any2nix</h6>
+          <button class="circle transparent">
+            <img class="responsive" src="/assets/img/favicon.ico" alt="any2nix logo">
+          </button>
+        </nav>
+      </header>
+      <main class="center-align responsive" id="main">
+        <div class="large-space"></div>
+        {% include "components/tabs/index.html" %}
+        {% include "components/tabs/contents.html" %}
+      </main>
+      <div id="snackbar"></div>
+      <footer>
+        <p class="center-align grey-text">
+          <a class="blue-text" href="https://github.com/gbr-ufs/any2nix">any2nix</a> © 2026 by
+          <a class="blue-text" href="https://github.com/gbr-ufs">Gabriel Santos de Souza</a>
+          is licensed under
+          <a class="blue-text" href="https://www.gnu.org/licenses/gpl-3.0.html">GPL 3.0 or later</a>
+        </p>
+      </footer>
+    </body>
+  </html>
