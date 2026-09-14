@@ -23,10 +23,7 @@
 //!
 //! # Supported Formats
 //!
-//! - [INI](https://en.wikipedia.org/wiki/INI_file)
-//! - [JSON](https://www.json.org)
-//! - [TOML](https://toml.io)
-//! - [YAML](https://yaml.org)
+//! See [any2nix::Format] for an enumeration of supported formats.
 //!
 //! Each format is gated behind its own [feature](https://doc.rust-lang.org/cargo/reference/features.html).
 //!
