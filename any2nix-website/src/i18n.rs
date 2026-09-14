@@ -22,6 +22,8 @@ pub(crate) struct I18n {
     // Language code of the preferred language reported by the browser to
     // be used in the HTML.
     pub(crate) lang: &'static str,
+    // Message that appears when JavaScript is unavailable.
+    pub(crate) noscript: &'static str,
     // Text of the "skip to content" button.
     pub(crate) skip_to_content: &'static str,
     // Message of the button used to submit text for conversion.
@@ -35,6 +37,7 @@ pub(crate) const EN_US: I18n = I18n {
     copy: "Copy to clipboard",
     download_nix: "Download as .nix",
     lang: "en-US",
+    noscript: "This website requires JavaScript",
     skip_to_content: "Skip to content",
     submit: "Submit",
 };
@@ -46,6 +49,7 @@ pub(crate) const PT_BR: I18n = I18n {
     copy: "Copiar para a área de transferência",
     download_nix: "Baixar como .nix",
     lang: "pt-BR",
+    noscript: "Este site requer JavaScript",
     skip_to_content: "Ir para o conteúdo principal",
     submit: "Enviar",
 };
