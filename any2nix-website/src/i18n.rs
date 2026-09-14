@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::convert::Infallible;
+
 use axum::{extract::FromRequestParts, http::request::Parts};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -53,7 +55,7 @@ impl<S> FromRequestParts<S> for I18n
 where
     S: Send + Sync,
 {
-    type Rejection = std::convert::Infallible;
+    type Rejection = Infallible;
 
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
         let Some(header) = parts
