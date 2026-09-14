@@ -96,6 +96,13 @@ pub enum Error {
 }
 
 /// Enumeration of the currently supported formats for conversion.
+///
+/// # Crate Features
+///
+/// With `clap` enabled, it can be used to limit possible values for a flag.
+///
+/// With `utoipa` enabled,generates an [OpenAPI](https://www.openapis.org/)-compatible
+/// schema to describe a value.
 #[derive(Clone, Copy, Debug, Deserialize, EnumIter, Eq, PartialEq, Serialize, VariantArray)]
 #[serde(rename_all = "lowercase")]
 #[cfg_attr(feature = "clap", derive(ValueEnum))]
