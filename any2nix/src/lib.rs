@@ -66,8 +66,14 @@
 //! # }
 //! ```
 
+use std::fmt::Display;
+
+#[cfg(feature = "clap")]
+use clap::ValueEnum;
 use serde::{Deserialize, Serialize};
 use strum::{EnumIter, IntoEnumIterator, VariantArray};
+#[cfg(feature = "utoipa")]
+use utoipa::ToSchema;
 
 /// Aggregator of all errors from all used serializers (translators)
 /// for simpler error handling.
@@ -94,7 +100,8 @@ pub enum Error {
 /// Enumeration of the currently supported formats for conversion.
 #[derive(Clone, Copy, Debug, Deserialize, EnumIter, Eq, PartialEq, Serialize, VariantArray)]
 #[serde(rename_all = "lowercase")]
-#[cfg_attr(feature = "utoipa", derive(utoipa::ToSchema))]
+#[cfg_attr(feature = "clap", derive(ValueEnum))]
+#[cfg_attr(feature = "utoipa", derive(ToSchema))]
 pub enum Format {
     #[cfg(feature = "ini")]
     Ini,
@@ -106,7 +113,7 @@ pub enum Format {
     Yaml,
 }
 
-impl std::fmt::Display for Format {
+impl Display for Format {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             #[cfg(feature = "ini")]

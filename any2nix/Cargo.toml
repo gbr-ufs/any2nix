@@ -14,6 +14,7 @@ repository.workspace = true
 version = "0.1.0"
 
 [dependencies]
+clap = { features = ["derive"], optional = true, version = "4.6.6" }
 ser_nix = "0.2.4"
 serde = "1.0.229"
 serde_ini = { optional = true, version = "0.2.0" }
@@ -25,6 +26,7 @@ utoipa = { optional = true, version = "5.5.0" }
 yaml_serde = { optional = true, version = "0.10.7" }
 
 [features]
+clap = ["dep:clap"]
 default = ["ini", "json", "toml", "yaml"]
 ini = ["dep:serde_ini", "dep:serde_json"]
 json = ["dep:serde_json"]
