@@ -13,5 +13,19 @@ name = "any2nix-cli"
 repository.workspace = true
 version = "0.1.0"
 
+[[bin]]
+name = "any2nix"
+path = "src/main.rs"
+
 [dependencies]
-any2nix.workspace = true
+any2nix = { features = ["clap"], workspace = true }
+clap = { features = ["derive"], version = "4.6.6" }
+clap_complete = "4.6.9"
+clap_mangen = "0.3.3"
+
+[features]
+default = ["ini", "json", "toml", "yaml"]
+ini = ["any2nix/ini"]
+json = ["any2nix/json"]
+toml = ["any2nix/toml"]
+yaml = ["any2nix/yaml"]
