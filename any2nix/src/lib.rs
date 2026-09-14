@@ -34,6 +34,7 @@
 //! Besides the features for each format, this crate also exposes the following
 //! features:
 //!
+//! - `clap`: Enables command-line argument parsing through [clap].
 //! - `utoipa`: Enables OpenAPI schema generation through [utoipa].
 //!
 //! # Examples: TOML
