@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+bin.name = "any2nix"
+args = "-f ini foo"
+status.code = 1
+stdin = ""
+stdout = ""
+stderr = '''
+any2nix: foo: No such file or directory (os error 2)
+'''
