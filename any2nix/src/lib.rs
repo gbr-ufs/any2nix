@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#![doc(html_favicon_url = "https://zipline.gs-101.dev/u/IRXrE8.ico")]
-#![doc(html_logo_url = "https://zipline.gs-101.dev/u/2QuAGa.svg")]
+#![doc(html_favicon_url = "https://zipline.gs-101.dev/u/DF6up7.ico")]
+#![doc(html_logo_url = "https://zipline.gs-101.dev/u/DZWGB0.svg")]
 //! This crate provides simple functions for translating different formats
 //! to [Nix](https://nixos.org).
 //!

@@ -4,8 +4,8 @@
 
 // TODO: Remove manual descriptions once utoipa supports docstring links.
 
-#![doc(html_favicon_url = "https://zipline.gs-101.dev/u/IRXrE8.ico")]
-#![doc(html_logo_url = "https://zipline.gs-101.dev/u/2QuAGa.svg")]
+#![doc(html_favicon_url = "https://zipline.gs-101.dev/u/DF6up7.ico")]
+#![doc(html_logo_url = "https://zipline.gs-101.dev/u/DZWGB0.svg")]
 //! This crate provides an [HTTP](https://httpwg.org/specs/) server to be used as
 //! an [OpenAPI](https://www.openapis.org/)-compatible API for translating different
 //! formats to [Nix](https://nixos.org).
