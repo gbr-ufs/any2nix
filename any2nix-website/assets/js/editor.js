@@ -17,10 +17,7 @@ export function initEditor(element) {
         return element._codejar;
     }
 
-    const jar = CodeJar(element, highlight, {
-        addClosing: true,
-        tab: "  ",
-    });
+    const jar = CodeJar(element, highlight);
 
     const form = element.closest("form");
     const format = element.id ? element.id.replace("editor-", "") : "";
