@@ -1,0 +1,8 @@
+bin.name = "any2nix"
+args = "-f ini sample.ini"
+status.code = 1
+stdin = ""
+stdout = ""
+stderr = '''
+any2nix: sample.ini: section missing ']'
+'''

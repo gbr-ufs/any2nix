@@ -1,0 +1,11 @@
+bin.name = "any2nix"
+args = "-f ini sample.ini"
+stdin = ""
+stdout = '''
+{
+  section = {
+    key = "value";
+  };
+}
+'''
+stderr = ""

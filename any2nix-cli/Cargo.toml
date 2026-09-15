@@ -29,3 +29,6 @@ ini = ["any2nix/ini"]
 json = ["any2nix/json"]
 toml = ["any2nix/toml"]
 yaml = ["any2nix/yaml"]
+
+[dev-dependencies]
+trycmd = "1.2.1"

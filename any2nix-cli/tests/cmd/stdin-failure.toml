@@ -1,0 +1,11 @@
+bin.name = "any2nix"
+args = "-f ini -"
+status.code = 1
+stdin = '''
+[broken
+nonsense = "
+'''
+stdout = ""
+stderr = '''
+any2nix: section missing ']'
+'''

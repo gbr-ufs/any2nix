@@ -1,0 +1,4 @@
+binary = true
+bin.name = "any2nix"
+args = "-f ini"
+status.code = 1
