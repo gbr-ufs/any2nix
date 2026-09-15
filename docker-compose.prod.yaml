@@ -5,9 +5,19 @@
 services:
   any2nix-api:
     build:
-      context: ..
-      dockerfile: any2nix-api/Dockerfile
+      args:
+        - CRATE="any2nix-api"
+      context: .
       target: prod
     ports:
       - 3000:3000
+    restart: unless-stopped
+  any2nix-website:
+    build:
+      args:
+        - CRATE="any2nix-website"
+      context: .
+      target: prod
+    ports:
+      - 3001:3000
     restart: unless-stopped
