@@ -18,7 +18,7 @@ keywords = ["converter", "nix", "web"]
 license.workspace = true
 name = "any2nix-website"
 repository.workspace = true
-version = "0.1.5"
+version = "0.1.6"
 
 [dependencies]
 any2nix.workspace = true
