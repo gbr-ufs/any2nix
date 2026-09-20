@@ -3,9 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use any2nix::Format;
+use any2nix_i18n::I18n;
 use askama::Template;
-
-use crate::i18n::I18n;
 
 #[derive(Template)]
 #[template(path = "components/snackbars/error.html")]

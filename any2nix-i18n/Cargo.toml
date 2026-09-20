@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+authors.workspace = true
+categories = ["internationalization"]
+description = "Internationalization (i18n) catalogs and utilities for any2nix."
+edition = "2024"
+keywords = ["any2nix", "i18n", "localization"]
+license.workspace = true
+name = "any2nix-i18n"
+publish = false
+repository.workspace = true
+version = "0.1.0"
+
+[dependencies]
+axum = { optional = true, version = "0.8.9" }
+
+[dev-dependencies]
+tokio = { features = ["macros", "rt"], version = "1.53.1" }
+
+[features]
+axum = ["dep:axum"]
+default = []

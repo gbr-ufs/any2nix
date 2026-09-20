@@ -26,13 +26,12 @@
 //! - `utoipa-swagger-ui`: Enables the [Swagger UI](https://swagger.io/tools/swagger-ui/) for the API through [utoipa-swagger-ui].
 
 pub(crate) mod embed;
-pub(crate) mod i18n;
 pub(crate) mod templates;
 
 use crate::embed::{Assets, NodeModules};
-use crate::i18n::I18n;
 use crate::templates::{ErrorSnackbar, IndexPage, Nix};
 use any2nix::Format;
+use any2nix_i18n::I18n;
 use askama::Template;
 use axum::{
     Form, Router,
@@ -136,7 +135,9 @@ pub fn app() -> Router {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::i18n::EN_US;
+    use any2nix_i18n::{EN_US, PT_BR};
+    use axum::extract::FromRequestParts;
+    use axum::http::Request;
 
     #[tokio::test]
     async fn returns_index_page() {

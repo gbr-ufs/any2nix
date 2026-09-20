@@ -108,6 +108,13 @@ name = "any2nix-gui"
 version = "0.1.0"
 dependencies = [
  "any2nix",
+
+[[package]]
+name = "any2nix-i18n"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "tokio",
 ]
 
 [[package]]
@@ -116,6 +123,7 @@ version = "0.1.0"
 dependencies = [
  "any2nix",
  "any2nix-api",
+ "any2nix-i18n",
  "askama",
  "axum",
  "mime_guess",
