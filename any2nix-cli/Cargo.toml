@@ -5,7 +5,7 @@
 [package]
 authors.workspace = true
 categories = ["command-line-utilities", "config", "development-tools"]
-description = "Command-line application for translating from various formats to Nix."
+description = "Command-line interface for translating from various formats to Nix."
 edition = "2024"
 keywords = ["cli", "config", "converter", "nix", "serde"]
 license.workspace = true
