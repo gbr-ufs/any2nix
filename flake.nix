@@ -25,6 +25,30 @@
         let
           overlays = [ (import rust-overlay) ];
           pkgs = import nixpkgs { inherit overlays system; };
+          mkDockerImage = {
+            pname,
+            package,
+            binName ? pname,
+            exposedPort ? null,
+          }:
+          pkgs.dockerTools.streamLayeredImage {
+            config = {
+              Entrypoint = [ "${package}/bin/${binName}" ];
+              Env = [
+                "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+              ];
+            } // lib.optionalAttrs (exposedPort != null) {
+              ExposedPorts = {
+                "${toString exposedPort}/tcp" = { };
+              };
+            };
+            contents = [
+              package
+              pkgs.cacert
+            ];
+            name = pname;
+            tag = "dev";
+          };
           rustToolchain = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
           rustPlatform = pkgs.makeRustPlatform {
             cargo = rustToolchain;
@@ -114,7 +138,25 @@
                 cp -r ${node_modules}/node_modules any2nix-website/
               '';
             };
-
+          docker-any2nix-api = mkDockerImage {
+            pname = "any2nix-api";
+            package = self.packages.${system}.any2nix-api;
+            exposedPort = 3000;
+          };
+          docker-any2nix-cli = mkDockerImage {
+            pname = "any2nix-cli";
+            package = self.packages.${system}.any2nix-cli;
+            binName = "any2nix";
+          };
+          docker-any2nix-gui = mkDockerImage {
+            pname = "any2nix-gui";
+            package = self.packages.${system}.any2nix-gui;
+          };
+          docker-any2nix-website = mkDockerImage {
+            pname = "any2nix-website";
+            package = self.packages.${system}.any2nix-website;
+            exposedPort = 3000;
+          };
           default = self.packages.${system}.any2nix-cli;
         }
       );
@@ -156,6 +198,7 @@
               release-plz
               reuse
               rustToolchain
+              skopeo
               taplo
               vscode-langservers-extracted
               zizmor
@@ -164,7 +207,7 @@
               ln -sf ${emacsSettings} .dir-locals.el
             '';
           };
-       }
+        }
       );
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
     };

@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Build
+
+on:
+  # zizmor: ignore[dangerous-triggers]
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Push
+    runs-on: ubuntu-latest
+    if: ${{ (github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')) && github.repository_owner == 'gbr-ufs' }}
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        crate:
+          - any2nix-api
+          - any2nix-cli
+          - any2nix-gui
+          - any2nix-website
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@08dcb3a5e62fa31e2da3d490afc4176ef55ecd72 # v30
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: cachix/cachix-action@ad2dd8bd50bc39745c822737a482e5cac2dd3c84 # v15
+        with:
+          name: any2nix
+          authToken: ${{ secrets.CACHIX_TOKEN }}
+      - name: Build package
+        run: nix build -L ".#${{ matrix.crate }}"
+      - name: Build & Push Docker image
+        env:
+          ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run: |
+          nix develop --command bash -c "
+            IMAGE=\"docker://ghcr.io/\${REPO_OWNER}/${{ matrix.crate }}:dev\"
+            STREAM_SCRIPT=\$(nix build --no-link --print-out-paths \".#docker-${{ matrix.crate }}\")
+            \"\${STREAM_SCRIPT}\" | skopeo copy --insecure-policy --dest-creds \"\${ACTOR}:\${GITHUB_TOKEN}\" docker-archive:/dev/stdin \"\${IMAGE}\"
+          "
