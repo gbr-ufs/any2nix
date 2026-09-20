@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4](https://github.com/gbr-ufs/any2nix/compare/any2nix-website-v0.1.3...any2nix-website-v0.1.4) - 2026-09-20
+
+### Fixed
+
+- add .gitkeep file to ensure any2nix-website compiles even without bun
+- allow dirty status for publishing any2nix-website
+
 ## [0.1.3](https://github.com/gbr-ufs/any2nix/releases/tag/any2nix-website-v0.1.3) - 2026-09-20
 
 ### Added
