@@ -28,4 +28,4 @@ bun run build
 cargo build
 ```
 
-When building through Nix (`nix build .#any2nix-website`), dependencies and bundled assets are handled automatically during the build phase.
+When building through Nix (`nix build .#any2nix-website`), dependencies and bundled assets are handled automatically during the build phase. Pre-compiled standalone binaries with all bundled frontend assets are also available on [GitHub Releases](https://github.com/gbr-ufs/any2nix/releases).
