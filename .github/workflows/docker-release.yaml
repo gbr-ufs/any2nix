@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Release Docker Image
+
+on:
+  push:
+    tags:
+      - "any2nix-api-v*"
+      - "any2nix-cli-v*"
+      - "any2nix-gui-v*"
+      - "any2nix-website-v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to build (example: any2nix-website-v0.1.0)"
+        required: true
+        type: string
+
+jobs:
+  release-docker:
+    if: ${{ github.repository_owner == 'gbr-ufs' }}
+    name: Build & Push Release Docker Image
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Parse tag
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          REF_NAME: ${{ github.ref_name }}
+        id: meta
+        run: |
+          TAG="${INPUT_TAG:-$REF_NAME}"
+          CRATE="${TAG%%-v*}"
+          VERSION="${TAG#*-v}"
+          echo "crate=${CRATE}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+      - uses: cachix/install-nix-action@08dcb3a5e62fa31e2da3d490afc4176ef55ecd72 # v30
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: cachix/cachix-action@ad2ddac53f961de1989924296a1f236fcfbaa4fc # v15
+        with:
+          name: any2nix
+          authToken: ${{ secrets.CACHIX_TOKEN }}
+      - name: Build package
+        env:
+          CRATE: ${{ steps.meta.outputs.crate }}
+        run: nix build -L ".#${CRATE}"
+      - name: Build & Push Docker image
+        env:
+          ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          CRATE: ${{ steps.meta.outputs.crate }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          nix develop --command bash -c "
+            VERSION_IMAGE=\"docker://ghcr.io/\${REPO_OWNER}/\${CRATE}:\${VERSION}\"
+            LATEST_IMAGE=\"docker://ghcr.io/\${REPO_OWNER}/\${CRATE}:latest\"
+            STREAM_SCRIPT=\$(nix build --no-link --print-out-paths \".#docker-\${CRATE}\")
+            \"\${STREAM_SCRIPT}\" | skopeo copy --insecure-policy --dest-creds \"\${ACTOR}:\${GITHUB_TOKEN}\" docker-archive:/dev/stdin \"\${VERSION_IMAGE}\"
+            skopeo copy --insecure-policy --src-creds \"\${ACTOR}:\${GITHUB_TOKEN}\" --dest-creds \"\${ACTOR}:\${GITHUB_TOKEN}\" \"\${VERSION_IMAGE}\" \"\${LATEST_IMAGE}\"
+          "
