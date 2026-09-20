@@ -8,11 +8,11 @@ categories = ["web-programming"]
 description = "Web interface for translating from various formats to Nix."
 edition = "2024"
 include = [
-  "Cargo.toml",
-  "README.md",
-  "dist/**/*",
-  "src/**/*",
-  "templates/**/*",
+  "/Cargo.toml",
+  "/README.md",
+  "/dist/**/*",
+  "/src/**/*",
+  "/templates/**/*",
 ]
 keywords = ["converter", "nix", "web"]
 license.workspace = true

@@ -4,3 +4,7 @@
 
 [workspace]
 git_release_enable = false
+
+[[package]]
+name = "any2nix-website"
+publish_allow_dirty = true
