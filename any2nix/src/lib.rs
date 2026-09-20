@@ -307,12 +307,13 @@ mod tests {
     #[cfg(feature = "ini")]
     #[test]
     fn converts_valid_ini() {
+        let format = Format::Ini;
         let ini = "
 enable-mouse = no
 [dmenu]
 mode = index
 ";
-        let nix = ini_to_nix(ini);
+        let nix = format.to_nix(ini);
         let expected = r#"{
   dmenu = {
     mode = "index";
@@ -326,21 +327,31 @@ mode = index
     #[cfg(feature = "ini")]
     #[test]
     fn errors_on_invalid_ini() {
+        let format = Format::Ini;
         let ini = r#"[broken
 nonsense = "
 "#;
-        let nix = ini_to_nix(ini);
+        let nix = format.to_nix(ini);
 
         assert!(matches!(nix, Err(Error::Ini(_))))
+    }
+
+    #[cfg(feature = "ini")]
+    #[test]
+    fn fmts_ini() {
+        let format_str = Format::Ini.to_string();
+
+        assert_eq!(format_str, "INI")
     }
 
     #[cfg(feature = "json")]
     #[test]
     fn converts_valid_json() {
+        let format = Format::Json;
         let json = r#"{
     "name": "forgejo"
 }"#;
-        let nix = json_to_nix(json);
+        let nix = format.to_nix(json);
         let expected = r#"{
   name = "forgejo";
 }"#;
@@ -351,22 +362,32 @@ nonsense = "
     #[cfg(feature = "json")]
     #[test]
     fn errors_on_invalid_json() {
+        let format = Format::Json;
         let json = r#"{
     "unclosed": "
 }"#;
-        let nix = json_to_nix(json);
+        let nix = format.to_nix(json);
 
         assert!(matches!(nix, Err(Error::Json(_))))
+    }
+
+    #[cfg(feature = "json")]
+    #[test]
+    fn fmts_json() {
+        let format_str = Format::Json.to_string();
+
+        assert_eq!(format_str, "JSON")
     }
 
     #[cfg(feature = "toml")]
     #[test]
     fn converts_valid_toml() {
+        let format = Format::Toml;
         let toml = r#"
 [package]
 name = "any2nix"
 "#;
-        let nix = toml_to_nix(toml);
+        let nix = format.to_nix(toml);
         let expected = r#"{
   package = {
     name = "any2nix";
@@ -379,20 +400,30 @@ name = "any2nix"
     #[cfg(feature = "toml")]
     #[test]
     fn errors_on_invalid_toml() {
+        let format = Format::Toml;
         let toml = "[broken
 doesnt_work = foo";
-        let nix = toml_to_nix(toml);
+        let nix = format.to_nix(toml);
 
         assert!(matches!(nix, Err(Error::Toml(_))))
+    }
+
+    #[cfg(feature = "toml")]
+    #[test]
+    fn fmts_toml() {
+        let format_str = Format::Toml.to_string();
+
+        assert_eq!(format_str, "TOML")
     }
 
     #[cfg(feature = "yaml")]
     #[test]
     fn converts_valid_yaml() {
+        let format = Format::Yaml;
         let yaml = "countries:
   - BR
   - NO";
-        let nix = yaml_to_nix(yaml);
+        let nix = format.to_nix(yaml);
         let expected = r#"{
   countries = [
     "BR"
@@ -406,9 +437,18 @@ doesnt_work = foo";
     #[cfg(feature = "yaml")]
     #[test]
     fn errors_on_invalid_yaml() {
+        let format = Format::Yaml;
         let yaml = "[unclosed, sequence";
-        let nix = yaml_to_nix(yaml);
+        let nix = format.to_nix(yaml);
 
         assert!(matches!(nix, Err(Error::Yaml(_))))
+    }
+
+    #[cfg(feature = "yaml")]
+    #[test]
+    fn fmts_yaml() {
+        let format_str = Format::Yaml.to_string();
+
+        assert_eq!(format_str, "YAML")
     }
 }
