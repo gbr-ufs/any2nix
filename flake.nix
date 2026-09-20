@@ -4,6 +4,12 @@
 
 {
   description = "Serialization-powered Nix Converter.";
+  nixConfig = {
+    extra-substituters = [ "https://any2nix.cachix.org" ];
+    extra-trusted-public-keys = [
+      "any2nix.cachix.org-1:NbpxEAtAuoVbp5CnyC5tjTi4WUsfvACee3Ffricnqgk="
+    ];
+  };
   inputs = {
     rust-overlay.url = "github:oxalica/rust-overlay";
     nixpkgs.url = "github:nixos/nixpkgs/master";
