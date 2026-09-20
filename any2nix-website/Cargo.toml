@@ -24,7 +24,7 @@ version = "0.1.0"
 
 [dependencies]
 any2nix.workspace = true
-any2nix-api = { optional = true, path = "../any2nix-api", version = "0.1.0" }
+any2nix-api = { optional = true, path = "../any2nix-api", version = "0.1.1" }
 any2nix-i18n = { features = ["axum"], workspace = true }
 askama = "0.16.1"
 axum = { features = ["tracing"], version = "0.8.9" }
