@@ -135,9 +135,7 @@ pub fn app() -> Router {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use any2nix_i18n::{EN_US, PT_BR};
-    use axum::extract::FromRequestParts;
-    use axum::http::Request;
+    use any2nix_i18n::{EN_US};
 
     #[tokio::test]
     async fn returns_index_page() {
