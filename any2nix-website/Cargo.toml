@@ -10,8 +10,7 @@ edition = "2024"
 include = [
   "Cargo.toml",
   "README.md",
-  "assets/**/*",
-  "node_modules/**/*",
+  "dist/**/*",
   "src/**/*",
   "templates/**/*",
 ]

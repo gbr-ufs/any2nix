@@ -18,26 +18,14 @@ any2nix-website is a web application used to translate from various formats to [
 
 ## Building
 
-This crate requires external dependencies from [npm](https://www.npmjs.com/) to be built. Use your preferred JavaScript runtime to install them.
-
-Examples:
-
-- Bun
+This crate bundles frontend assets using [Bun](https://bun.sh/) before embedding them into the Rust application:
 
 ```bash
-bun install
+# Install dependencies and build bundled assets.
+bun run build
+
+# Build the crate
+cargo build
 ```
 
-- Node
-
-```bash
-npm install
-```
-
-- Yarn
-
-```bash
-yarn install
-```
-
-And so on.
+When building through Nix (`nix build .#any2nix-website`), dependencies and bundled assets are handled automatically during the build phase.

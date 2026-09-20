@@ -18,14 +18,14 @@ ARG CARGO_FEATURES="default"
 COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}"
 COPY . .
-RUN if [ "${CRATE}" = "any2nix-website" ]; then cd any2nix-website && bun install --frozen-lockfile; fi
+RUN if [ "${CRATE}" = "any2nix-website" ]; then cd any2nix-website && bun run build; fi
 RUN cargo build --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}" && \
     if [ -f "/app/target/debug/${CRATE}" ]; then \
       cp "/app/target/debug/${CRATE}" /app/app-bin; \
     elif [ -f "/app/target/debug/any2nix" ]; then \
       cp /app/target/debug/any2nix /app/app-bin; \
     fi
-RUN mkdir -p /app/any2nix-website/assets /app/any2nix-website/node_modules
+RUN mkdir -p /app/any2nix-website/dist
 
 FROM chef AS prod-builder
 ARG CRATE="any2nix-cli"
@@ -33,7 +33,7 @@ ARG CARGO_FEATURES="default"
 COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --release --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}"
 COPY . .
-RUN if [ "${CRATE}" = "any2nix-website" ]; then cd any2nix-website && bun install --frozen-lockfile; fi
+RUN if [ "${CRATE}" = "any2nix-website" ]; then cd any2nix-website && bun run build; fi
 RUN cargo build --release --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}" && \
     if [ -f "/app/target/release/${CRATE}" ]; then \
       cp "/app/target/release/${CRATE}" /app/app-bin; \
@@ -44,8 +44,7 @@ RUN cargo build --release --package "${CRATE}" --no-default-features --features 
 FROM gcr.io/distroless/cc-debian12:debug@sha256:bc3546a529388660b583cc85ca6559927652d54391dc8059419d7b4bf3921154 AS dev
 WORKDIR /app
 COPY --from=dev-builder /app/app-bin /usr/local/bin/app
-COPY --from=dev-builder /app/any2nix-website/assets /app/any2nix-website/assets
-COPY --from=dev-builder /app/any2nix-website/node_modules /app/any2nix-website/node_modules
+COPY --from=dev-builder /app/any2nix-website/dist /app/any2nix-website/dist
 ENTRYPOINT ["/usr/local/bin/app"]
 
 FROM gcr.io/distroless/cc-debian12@sha256:e5d81ddde149641e2a9ba55be4545bc125c67de07508b03ba4c22e6eb0ded5aa AS prod

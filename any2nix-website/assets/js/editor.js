@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { CodeJar } from "/node_modules/codejar/dist/codejar.js";
+import { CodeJar } from "codejar";
 
 function highlight(element) {
     if (window.Prism) {

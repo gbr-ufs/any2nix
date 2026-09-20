@@ -28,7 +28,7 @@
 pub(crate) mod embed;
 pub(crate) mod templates;
 
-use crate::embed::{Assets, NodeModules};
+use crate::embed::Dist;
 use crate::templates::{ErrorSnackbar, IndexPage, Nix};
 use any2nix::Format;
 use any2nix_i18n::I18n;
@@ -98,11 +98,7 @@ pub(crate) fn get_path<E: Embed>(_embed: E, path: String) -> impl IntoResponse {
 }
 
 pub(crate) async fn get_assets(Path(path): Path<String>) -> impl IntoResponse {
-    get_path(Assets, path)
-}
-
-pub(crate) async fn get_node_modules(Path(path): Path<String>) -> impl IntoResponse {
-    get_path(NodeModules, path)
+    get_path(Dist, path)
 }
 
 pub(crate) async fn post_convert(
@@ -120,7 +116,6 @@ pub fn app() -> Router {
     let router = Router::new()
         .route("/", get(get_root))
         .route("/assets/{*path}", get(get_assets))
-        .route("/node_modules/{*path}", get(get_node_modules))
         .route("/convert/{format}", post(post_convert));
 
     #[cfg(feature = "api")]
@@ -168,8 +163,8 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn returns_beercss_readme() {
-        let response_status = get_node_modules(Path("beercss/README.md".to_string()))
+    async fn returns_index_js() {
+        let response_status = get_assets(Path("js/index.js".to_string()))
             .await
             .into_response()
             .status();

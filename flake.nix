@@ -140,8 +140,14 @@
               src = ./.;
               cargoLock.lockFile = ./Cargo.lock;
               buildAndTestSubdir = "any2nix-website";
+              nativeBuildInputs = [ pkgs.bun ];
               preBuild = ''
-                cp -r ${node_modules}/node_modules any2nix-website/
+                export HOME=$TMPDIR
+                cp -r --no-preserve=mode ${node_modules}/node_modules any2nix-website/
+                cd any2nix-website
+                bun run build
+                rm -rf node_modules
+                cd ..
               '';
             };
           docker-any2nix-api = mkDockerImage {
