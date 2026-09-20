@@ -64,8 +64,8 @@ jobs:
       - run: |
           sudo apt update
           sudo apt install -y \
-          libgtk-4-dev
-          libadwaita-1-dev
+          libgtk-4-dev \
+          libadwaita-1-dev \
           libgtksourceview-5-dev
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
       - run: cargo clippy --all-targets --workspace -- -D warnings
@@ -79,8 +79,8 @@ jobs:
       - run: |
           sudo apt update
           sudo apt install -y \
-          libgtk-4-dev
-          libadwaita-1-dev
+          libgtk-4-dev \
+          libadwaita-1-dev \
           libgtksourceview-5-dev
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
       - uses: taiki-e/install-action@a2a5f6e99e1a31540baa0468acfa302cff0f359f # v2.86.4
