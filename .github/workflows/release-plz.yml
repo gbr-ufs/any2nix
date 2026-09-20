@@ -26,8 +26,8 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y \
-            libgtk-4-dev
-            libadwaita-1-dev
+            libgtk-4-dev \
+            libadwaita-1-dev \
             libgtksourceview-5-dev
       - name: Setup Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
