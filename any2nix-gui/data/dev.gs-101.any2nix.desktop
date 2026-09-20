@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[Desktop Entry]
+Name=any2nix
+Comment=Serialization-powered Nix converter
+Exec=any2nix-gui
+Icon=dev.gs-101.any2nix
+Terminal=false
+Type=Application
+Categories=Utility;Development;
+StartupWMClass=dev.gs-101.any2nix

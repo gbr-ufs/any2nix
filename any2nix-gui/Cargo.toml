@@ -14,4 +14,15 @@ repository.workspace = true
 version = "0.1.0"
 
 [dependencies]
+adw = { version = "0.9", package = "libadwaita" }
 any2nix.workspace = true
+any2nix-i18n.workspace = true
+gtk = { version = "0.11.4", package = "gtk4", features = ["v4_22"] }
+sourceview5 = "0.11.2"
+
+[features]
+default = ["ini", "json", "toml", "yaml"]
+ini = ["any2nix/ini"]
+json = ["any2nix/json"]
+toml = ["any2nix/toml"]
+yaml = ["any2nix/yaml"]
