@@ -8,7 +8,7 @@
     "prismjs": "^1.30.0"
   },
   "scripts": {
-    "build": "bun install --frozen-lockfile && bun build assets/js/index.js --outdir=dist/js --minify && bun build assets/css/index.css --outdir=dist/css --minify && cp -r assets/img dist/"
+    "build": "bun install --frozen-lockfile && bun build assets/js/index.js --outdir=dist/js --minify && bun build assets/css/index.css --outdir=dist/css --minify && cp -R assets/img dist/"
   },
   "private": true,
   "type": "module"
