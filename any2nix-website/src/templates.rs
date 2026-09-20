@@ -17,7 +17,7 @@ pub(crate) struct ErrorSnackbar {
 #[template(path = "pages/index.html")]
 pub(crate) struct IndexPage {
     pub(crate) i18n: I18n,
-    pub(crate) formats: Vec<Format>,
+    pub(crate) formats: &'static [Format],
 }
 
 #[derive(Template)]

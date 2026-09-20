@@ -78,9 +78,10 @@ impl IntoResponse for Error {
 }
 
 pub(crate) async fn get_root(i18n: I18n) -> HtmlTemplate<IndexPage> {
-    let formats = Format::iter().collect();
-
-    HtmlTemplate(IndexPage { i18n, formats })
+    HtmlTemplate(IndexPage {
+        i18n,
+        formats: Format::VARIANTS,
+    })
 }
 
 // Helper for accessing embedded files from paths.

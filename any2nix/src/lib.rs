@@ -69,7 +69,7 @@ use std::fmt::Display;
 #[cfg(feature = "clap")]
 use clap::ValueEnum;
 use serde::{Deserialize, Serialize};
-use strum::{EnumIter, IntoEnumIterator, VariantArray};
+use strum::VariantArray;
 #[cfg(feature = "utoipa")]
 use utoipa::ToSchema;
 
@@ -103,7 +103,7 @@ pub enum Error {
 ///
 /// With `utoipa` enabled,generates an [OpenAPI](https://www.openapis.org/)-compatible
 /// schema to describe a value.
-#[derive(Clone, Copy, Debug, Deserialize, EnumIter, Eq, PartialEq, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize, VariantArray)]
 #[serde(rename_all = "lowercase")]
 #[cfg_attr(feature = "clap", derive(ValueEnum))]
 #[cfg_attr(feature = "utoipa", derive(ToSchema))]
@@ -134,9 +134,7 @@ impl Display for Format {
 }
 
 impl Format {
-    pub fn iter() -> impl Iterator<Item = Self> {
-        <Self as IntoEnumIterator>::iter()
-    }
+    pub const VARIANTS: &'static [Self] = <Self as VariantArray>::VARIANTS;
 
     pub fn to_nix(&self, input: &str) -> Result<String, Error> {
         match self {
