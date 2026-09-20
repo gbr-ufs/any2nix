@@ -128,6 +128,20 @@ mod tests {
         assert_eq!(I18n::from_locales(["de-DE", "ja"]), EN_US);
     }
 
+    #[test]
+    fn test_from_locale() {
+        assert_eq!(I18n::from_locale("pt-BR"), PT_BR);
+        assert_eq!(I18n::from_locale("pt"), PT_BR);
+        assert_eq!(I18n::from_locale("en-US"), EN_US);
+        assert_eq!(I18n::from_locale("en-GB"), EN_US);
+        assert_eq!(I18n::from_locale("de-DE"), EN_US);
+    }
+
+    #[test]
+    fn test_default() {
+        assert_eq!(I18n::default(), EN_US);
+    }
+
     #[cfg(feature = "axum")]
     mod axum_tests {
         use axum::http::Request;
