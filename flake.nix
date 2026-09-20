@@ -191,6 +191,7 @@
               actionlint
               bun
               cargo-audit
+              cargo-dist
               cargo-llvm-cov
               cocogitto
               dockerfile-language-server

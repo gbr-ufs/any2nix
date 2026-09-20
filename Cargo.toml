@@ -19,5 +19,11 @@ any2nix-i18n = { default-features = false, path = "./any2nix-i18n", version = "0
 
 [workspace.package]
 authors = ["Gabriel Santos de Souza <gabriel.santosdesouza@dcomp.ufs.br>"]
+homepage = "https://git.gs-101.dev/gs-101/any2nix"
 license = "GPL-3.0-or-later"
-repository = "https://git.gs-101.dev/gs-101/any2nix"
+repository = "https://github.com/gbr-ufs/any2nix"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
