@@ -11,7 +11,7 @@ keywords = ["cli", "config", "converter", "nix", "serde"]
 license.workspace = true
 name = "any2nix-cli"
 repository.workspace = true
-version = "0.1.0"
+version = "0.1.1"
 
 [[bin]]
 name = "any2nix"
