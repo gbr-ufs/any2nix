@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5](https://github.com/gbr-ufs/any2nix/compare/any2nix-website-v0.1.4...any2nix-website-v0.1.5) - 2026-09-20
+
+### Fixed
+
+- *(any2nix-website)* ensure standalone binaries embed frontend assets
+
 ## [0.1.4](https://github.com/gbr-ufs/any2nix/compare/any2nix-website-v0.1.3...any2nix-website-v0.1.4) - 2026-09-20
 
 ### Fixed

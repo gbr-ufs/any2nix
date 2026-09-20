@@ -124,7 +124,7 @@ dependencies = [
 
 [[package]]
 name = "any2nix-website"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "any2nix",
  "any2nix-api",
