@@ -7,6 +7,14 @@ authors.workspace = true
 categories = ["web-programming"]
 description = "Web interface for translating from various formats to Nix."
 edition = "2024"
+include = [
+  "Cargo.toml",
+  "README.md",
+  "assets/**/*",
+  "node_modules/**/*",
+  "src/**/*",
+  "templates/**/*",
+]
 keywords = ["converter", "nix", "web"]
 license.workspace = true
 name = "any2nix-website"
