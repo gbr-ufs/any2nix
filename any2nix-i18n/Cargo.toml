@@ -10,7 +10,6 @@ edition = "2024"
 keywords = ["any2nix", "i18n", "localization"]
 license.workspace = true
 name = "any2nix-i18n"
-publish = false
 repository.workspace = true
 version = "0.1.0"
 
