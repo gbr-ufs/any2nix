@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2026 Gabriel Santos de Souza <gabriel.santosdesouza@dcom
 SPDX-License-Identifier: CC-BY-4.0
 -->
 
-![Ferris the Rustacean, Rust's mascot, holding a file on its left claw and Nix's logo on its right claw](../img/any2nix.svg)
+![Ferris the Rustacean, Rust's mascot, holding a file on its left claw and Nix's logo on its right claw](https://zipline.gs-101.dev/u/DZWGB0.svg)
 
 # [any2nix-gui: Nix Converter GUI](https://docs.rs/any2nix-gui)
 
