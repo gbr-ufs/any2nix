@@ -11,21 +11,12 @@
         "material-symbols": "^0.47.2",
         "prismjs": "^1.30.0",
       },
-      "devDependencies": {
-        "@types/bun": "latest",
-      },
     },
   },
   "packages": {
     "@material/material-color-utilities": ["@material/material-color-utilities@0.3.0", "", {}, "sha512-ztmtTd6xwnuh2/xu+Vb01btgV8SQWYCaK56CkRK8gEkWe5TuDyBcYJ0wgkMRn+2VcE9KUmhvkz+N9GHrqw/C0g=="],
 
-    "@types/bun": ["@types/bun@1.4.2", "", { "dependencies": { "bun-types": "1.4.2" } }, "sha512-GimotNn7+ZV0uVArItBbriZsR1oNf0+WTzPkdcFrzShI7k2norL0uzEaJT8T33dWr7O/c9ZDuAFQrctKCi72oQ=="],
-
-    "@types/node": ["@types/node@22.20.2", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-xlvWf4Vs9n1PEVYwP1n4vvG07M6y8WgvJ2t0vbrWTmijsIHp1cS+uJ2kMIRdY3nHZK0nCYKrPeD171+SzF4/zw=="],
-
     "beercss": ["beercss@5.0.3", "", { "dependencies": { "material-dynamic-colors": "^1.1.4" } }, "sha512-d451Q/em0v+QJdymVPs9RP7tKwJbZiyv8TfvSeNT4ikbz65DJZu/rCwQllA5BHdQyn3g0yMW+QPQSQa2JYAz2A=="],
-
-    "bun-types": ["bun-types@1.4.2", "", { "dependencies": { "@types/node": "*" } }, "sha512-bxV1FgK7yBIzjRe5zBozIM4Bem11ZJcCXSrjWRG3YWLt8yFDePu4cLjpebO8OvPeIE9trbyPF4fuj3Cia4Fj3w=="],
 
     "codejar": ["codejar@4.3.0", "", {}, "sha512-A7BlrtD2oHR4xsABs/lLvDNxiPxkx71SuyHhcilBHbPMASpQs4d1AG2XjDSAm7y40RmfXbSGbMBhllGy//CDOA=="],
 
@@ -36,7 +27,5 @@
     "material-symbols": ["material-symbols@0.47.2", "", {}, "sha512-+IWfgccIy3A7OFX+2LzI9LNXCkg3m8h+FhuNyNNOdL+uOQxw8zaP2nsuj2MOQmapND8OnmlHZ1XWrQFc4/9ZKw=="],
 
     "prismjs": ["prismjs@1.30.0", "", {}, "sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw=="],
-
-    "undici-types": ["undici-types@6.21.0", "", {}, "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="],
   }
 }
