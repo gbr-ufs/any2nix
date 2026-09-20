@@ -36,7 +36,7 @@ jobs:
       - uses: cachix/install-nix-action@08dcb3a5e62fa31e2da3d490afc4176ef55ecd72 # v30
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: cachix/cachix-action@ad2dd8bd50bc39745c822737a482e5cac2dd3c84 # v15
+      - uses: cachix/cachix-action@ad2ddac53f961de1989924296a1f236fcfbaa4fc # v15
         with:
           name: any2nix
           authToken: ${{ secrets.CACHIX_TOKEN }}
