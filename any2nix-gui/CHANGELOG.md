@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1](https://github.com/gbr-ufs/any2nix/compare/any2nix-gui-v0.1.0...any2nix-gui-v0.1.1) - 2026-09-20
+
+### Other
+
+- release v0.1.0
+
 ## [0.1.0](https://github.com/gbr-ufs/any2nix/releases/tag/any2nix-gui-v0.1.0) - 2026-09-20
 
 ### Added
