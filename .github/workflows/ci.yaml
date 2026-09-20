@@ -19,7 +19,7 @@ jobs:
           persist-credentials: false
       - uses: cocogitto/cocogitto-action@9a9fe03b31c47444290c0d7f9b1ee1b44ee13f20 # v4.1.0
         with:
-          check-latest-tag-only: true
+          command: check
   reuse:
     permissions: {}
     runs-on: ubuntu-latest
@@ -52,6 +52,7 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
         with:
           cache: false
+          components: rustfmt
       - uses: actions-rust-lang/rustfmt@4066006ec54a31931b9b1fddfd38f2fdf2d27143 #v1.1.2
   clippy:
     permissions: {}
@@ -60,6 +61,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - run: |
+          sudo apt update
+          sudo apt install -y \
+          libgtk-4-dev
+          libadwaita-1-dev
+          libgtksourceview-5-dev
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
       - run: cargo clippy --all-targets --workspace -- -D warnings
   cargo-llvm-cov:
@@ -69,6 +76,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - run: |
+          sudo apt update
+          sudo apt install -y \
+          libgtk-4-dev
+          libadwaita-1-dev
+          libgtksourceview-5-dev
       - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
       - uses: taiki-e/install-action@a2a5f6e99e1a31540baa0468acfa302cff0f359f # v2.86.4
         with:
