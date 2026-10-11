@@ -34,14 +34,6 @@ any2nix supports converting from the following formats into Nix expressions:
 - [TOML](https://toml.io)
 - [YAML](https://yaml.org)
 
-## Getting started
-
-This crate is on [crates.io](https://crates.io/crates/any2nix) and can be added as a dependency of your project:
-
-```bash
-cargo add any2nix
-```
-
 ## Quick look
 
 ```rust
