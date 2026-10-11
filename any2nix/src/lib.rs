@@ -13,15 +13,6 @@
 //! Due to being based on serialization, the translation process has
 //! a chance to fail, primarily on invalid formatting.
 //!
-//! # Usage
-//!
-//! This crate is on [crates.io](https://crates.io/crates/any2nix) and can
-//! be added as a dependency of your project:
-//!
-//! ```bash
-//! cargo add any2nix
-//! ```
-//!
 //! # Supported Formats
 //!
 //! See [Format] for an enumeration of supported formats.
@@ -31,6 +22,7 @@
 //! The default feature enables all formats.
 //!
 //! # Crate Features
+//!
 //! Besides the features for each format, this crate also exposes the following
 //! features:
 //!
