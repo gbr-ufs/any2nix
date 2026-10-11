@@ -13,10 +13,10 @@ SPDX-License-Identifier: CC-BY-4.0
 </p>
 
 <p align="center">
-  <a href="https://github.com/gbr-ufs/any2nix/actions/workflows/ci.yaml"><img src="https://img.shields.io/github/actions/workflow/status/gbr-ufs/any2nix/ci.yaml?branch=main&label=ci" alt="CI Status"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license_-GPLv3+-822422?logo=GNU&logoColor=black&labelColor=white" alt="License"></a>
+  <a href="https://github.com/gbr-ufs/any2nix/actions/workflows/ci.yaml"><img src="https://img.shields.io/github/actions/workflow/status/gbr-ufs/any2nix/ci.yaml?branch=main&label=CI" alt="CI Status"></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-GPLv3+-822422?logo=GNU&logoColor=black&labelColor=white" alt="License"></a>
   <a href="https://api.reuse.software/info/github.com/gbr-ufs/any2nix"><img src="https://api.reuse.software/badge/github.com/gbr-ufs/any2nix" alt="REUSE status"></a>
-  <img src="https://img.shields.io/badge/rust_edition-2024-dea584?logo=rust" alt="Rust Edition">
+  <img src="https://img.shields.io/badge/Rust_edition-2024-dea584?logo=rust" alt="Rust Edition">
 </p>
 
 ## What is any2nix?
@@ -40,8 +40,8 @@ any2nix provides multiple interfaces to fit different workflows:
 - **Rust Library** ([any2nix](./any2nix/README.md)): serde-based Nix converter library.
 - **JSON-based API** ([any2nix-api](./any2nix-api/README.md)): JSON-based Nix converter API.
   - **CLI** ([any2nix-cli](./any2nix-cli/README.md)): Nix converter CLI ([terminal recording](https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif)).
-- **GUI** ([any2nix-gui](./any2nix-gui/README.md)): Nix converter GUI.
-- **Web App** ([any2nix-website](./any2nix-website/README.md)): Nix converter website.
+  - **GUI** ([any2nix-gui](./any2nix-gui/README.md)): Nix converter GUI.
+  - **Web App** ([any2nix-website](./any2nix-website/README.md)): Nix converter website.
 
 <p align="center">
   <a href="https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif">
