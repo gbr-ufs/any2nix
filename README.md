@@ -42,6 +42,7 @@ any2nix provides multiple interfaces to fit different workflows:
   - **CLI** ([any2nix-cli](./any2nix-cli/README.md)): Nix converter CLI ([terminal recording](https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif)).
   - **GUI** ([any2nix-gui](./any2nix-gui/README.md)): Nix converter GUI.
   - **Web App** ([any2nix-website](./any2nix-website/README.md)): Nix converter website.
+- **Agent Skill** ([any2nix](./skills/any2nix/SKILL.md)): Nix converter skill for agent harnesses (Claude Code, Antigravity, etc.).
 
 <p align="center">
   <a href="https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif">

@@ -4,7 +4,9 @@
 
 # Ignore all dotfiles, except those under version control.
 .*
+!.agents/
 !.cargo/
+!.claude-plugin/
 !.devcontainer/
 !.dockerignore
 !.editorconfig

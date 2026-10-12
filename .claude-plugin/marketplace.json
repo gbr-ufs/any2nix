@@ -1,0 +1,22 @@
+{
+  "name": "gbr-ufs-any2nix",
+  "owner": {
+    "name": "Gabriel Santos de Souza",
+    "email": "gabriel.santosdesouza@dcomp.ufs.br"
+  },
+  "metadata": {
+    "description": "Claude Code skills for any2nix",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "any2nix",
+      "description": "Convert configuration files (JSON, TOML, YAML, INI) to Nix expressions using any2nix",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/any2nix"
+      ]
+    }
+  ]
+}

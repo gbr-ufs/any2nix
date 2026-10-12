@@ -1,0 +1,11 @@
+{
+  "name": "any2nix",
+  "version": "0.1.0",
+  "description": "Convert configuration files (JSON, TOML, YAML, INI) to Nix expressions using any2nix",
+  "author": {
+    "name": "Gabriel Santos de Souza",
+    "email": "gabriel.santosdesouza@dcomp.ufs.br"
+  },
+  "license": "GPL-3.0-or-later",
+  "repository": "https://github.com/gbr-ufs/any2nix"
+}

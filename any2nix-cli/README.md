@@ -21,3 +21,12 @@ SPDX-License-Identifier: CC-BY-4.0
 ## Introduction
 
 any2nix-cli is a command-line interface (CLI) for converting from multiple formats to [Nix](https://nixos.org/).
+
+## Agent Skill
+
+You can install the `any2nix` skill into AI agent harnesses:
+
+```sh
+claude plugin marketplace add gbr-ufs/any2nix
+claude plugin install any2nix@gbr-ufs-any2nix
+```
