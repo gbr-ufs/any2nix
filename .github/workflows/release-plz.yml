@@ -36,7 +36,12 @@ jobs:
           bun-version: 1.3.13
       - &website-assets
         name: Build website assets
-        run: cd any2nix-website && bun run build && rm -rf node_modules
+        run: |
+          cd any2nix-website
+          bun install --frozen-lockfile
+          bun build assets/js/index.js --outdir dist --minify
+          bun build assets/css/index.css --outdir dist --minify
+          rm -rf node_modules
       - &install-rust
         name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable

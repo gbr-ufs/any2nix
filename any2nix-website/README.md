@@ -22,7 +22,9 @@ This crate bundles frontend assets using [Bun](https://bun.sh/) before embedding
 
 ```bash
 # Install dependencies and build bundled assets.
-bun run build
+bun install --frozen-lockfile
+bun build assets/js/index.js --outdir dist --minify
+bun build assets/css/index.css --outdir dist --minify
 
 # Build the crate
 cargo build

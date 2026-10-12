@@ -145,7 +145,8 @@
                 export HOME=$TMPDIR
                 cp -r --no-preserve=mode ${node_modules}/node_modules any2nix-website/
                 cd any2nix-website
-                bun run build
+                bun build assets/js/index.js --outdir dist --minify
+                bun build assets/css/index.css --outdir dist --minify
                 rm -rf node_modules
                 cd ..
               '';

@@ -18,7 +18,12 @@ ARG CARGO_FEATURES="default"
 COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}"
 COPY . .
-RUN if [ "${CRATE}" = "any2nix-website" ]; then cd any2nix-website && bun run build; fi
+RUN if [ "${CRATE}" = "any2nix-website" ]; then \
+      cd any2nix-website && \
+      bun install --frozen-lockfile && \
+      bun build assets/js/index.js --outdir dist --minify && \
+      bun build assets/css/index.css --outdir dist --minify; \
+    fi
 RUN cargo build --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}" && \
     if [ -f "/app/target/debug/${CRATE}" ]; then \
       cp "/app/target/debug/${CRATE}" /app/app-bin; \
@@ -33,7 +38,12 @@ ARG CARGO_FEATURES="default"
 COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --release --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}"
 COPY . .
-RUN if [ "${CRATE}" = "any2nix-website" ]; then cd any2nix-website && bun run build; fi
+RUN if [ "${CRATE}" = "any2nix-website" ]; then \
+      cd any2nix-website && \
+      bun install --frozen-lockfile && \
+      bun build assets/js/index.js --outdir dist --minify && \
+      bun build assets/css/index.css --outdir dist --minify; \
+    fi
 RUN cargo build --release --package "${CRATE}" --no-default-features --features "${CARGO_FEATURES}" && \
     if [ -f "/app/target/release/${CRATE}" ]; then \
       cp "/app/target/release/${CRATE}" /app/app-bin; \
