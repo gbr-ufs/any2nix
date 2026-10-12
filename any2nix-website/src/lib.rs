@@ -153,7 +153,7 @@ mod tests {
 
     #[tokio::test]
     async fn returns_index_css() {
-        let response_status = get_assets(Path("css/index.css".to_string()))
+        let response_status = get_assets(Path("index.css".to_string()))
             .await
             .into_response()
             .status();
@@ -164,7 +164,7 @@ mod tests {
 
     #[tokio::test]
     async fn returns_index_js() {
-        let response_status = get_assets(Path("js/index.js".to_string()))
+        let response_status = get_assets(Path("index.js".to_string()))
             .await
             .into_response()
             .status();
