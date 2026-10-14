@@ -53,6 +53,12 @@ Interactive OpenAPI documentation is available at `/docs` when the `utoipa-swagg
 
 ## Installation
 
+### Install with Cargo
+
+```bash
+cargo install any2nix-cli
+```
+
 ### Install on macOS
 
 macOS builds of any2nix-api are available at the [releases tab](https://github.com/gbr-ufs/any2nix/releases/latest).
