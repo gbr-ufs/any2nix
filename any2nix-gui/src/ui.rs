@@ -254,6 +254,54 @@ fn build_submit_button(
     button
 }
 
+fn build_download_button(i18n: I18n, result_page: &ScrolledWindow) -> Button {
+    let button = Button::builder()
+        .label(i18n.download_nix)
+        .icon_name("document-save-symbolic")
+        .build();
+
+    let result_buffer = get_editor_buffer(result_page);
+
+    button.connect_clicked(clone!(
+        #[weak]
+        result_buffer,
+        move |btn| {
+            let window = btn.root().and_downcast::<gtk::Window>();
+            let dialog = gtk::FileDialog::builder()
+                .title(i18n.download_nix)
+                .initial_name("default.nix")
+                .build();
+
+            dialog.save(
+                window.as_ref(),
+                gtk::gio::Cancellable::NONE,
+                clone!(
+                    #[weak]
+                    result_buffer,
+                    move |res| {
+                        if let Ok(file) = res {
+                            let text = result_buffer.text(
+                                &result_buffer.start_iter(),
+                                &result_buffer.end_iter(),
+                                false,
+                            );
+                            let _ = file.replace_contents(
+                                text.as_bytes(),
+                                None,
+                                false,
+                                gtk::gio::FileCreateFlags::REPLACE_DESTINATION,
+                                gtk::gio::Cancellable::NONE,
+                            );
+                        }
+                    }
+                ),
+            );
+        }
+    ));
+
+    button
+}
+
 fn build_result_button(i18n: I18n, stack: &Stack, editor: &ScrolledWindow) -> Button {
     let button = Button::with_label(i18n.another_one);
     let input_buffer = get_editor_buffer(editor);
@@ -287,11 +335,13 @@ fn build_format_page(i18n: I18n, format: &Format) -> Stack {
     input_button_box.append(&attach_button);
     input_button_box.append(&submit_button);
 
+    let download_button = build_download_button(i18n, &result_page);
     let result_button = build_result_button(i18n, &stack, &editor);
 
     let result_button_box = gtk::Box::new(Orientation::Horizontal, 12);
 
     result_button_box.set_halign(Align::Center);
+    result_button_box.append(&download_button);
     result_button_box.append(&result_button);
 
     let input_box = gtk::Box::new(Orientation::Vertical, 16);
