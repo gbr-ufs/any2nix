@@ -83,7 +83,7 @@ A docker image is available for any2nix-api.
 docker run --rm -it -p 3000:3000 ghcr.io/gbr-ufs/any2nix-api:latest
 ```
 
-After running this, the API will be available on <http://localhost:3000>.
+After running this, the API will be available at <http://localhost:3000>.
 
 ## Crate features
 
