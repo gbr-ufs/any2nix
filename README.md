@@ -39,9 +39,9 @@ any2nix provides multiple interfaces to fit different workflows:
 
 - **Rust Library** ([any2nix](./any2nix/README.md)): serde-based Nix converter library.
 - **JSON-based API** ([any2nix-api](./any2nix-api/README.md)): JSON-based Nix converter API.
-  - **CLI** ([any2nix-cli](./any2nix-cli/README.md)): Nix converter CLI ([terminal recording](https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif)).
-  - **GUI** ([any2nix-gui](./any2nix-gui/README.md)): Nix converter GUI.
-  - **Web App** ([any2nix-website](./any2nix-website/README.md)): Nix converter website.
+- **CLI** ([any2nix-cli](./any2nix-cli/README.md)): Nix converter CLI ([terminal recording](https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif)).
+- **GUI** ([any2nix-gui](./any2nix-gui/README.md)): Nix converter GUI.
+- **Web App** ([any2nix-website](./any2nix-website/README.md)): Nix converter website.
 - **Agent Skill** ([any2nix](./skills/any2nix/SKILL.md)): Nix converter skill for agent harnesses (Claude Code, Antigravity, etc.).
 
 <p align="center">
