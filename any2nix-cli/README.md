@@ -23,7 +23,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ## What is any2nix-cli?
 
-any2nix-cli is a command-line interface for translating text and files from various configuration formats to [Nix](https://nixos.org/).
+any2nix-cli is a command-line interface (CLI) for translating text and files from various configuration formats to [Nix](https://nixos.org/).
 
 ![GIF showcasing the program being used on the project's "rust-toolchain.toml"](https://vhs.charm.sh/vhs-13JxibIvMVVKmWS323SntU.gif)
 
