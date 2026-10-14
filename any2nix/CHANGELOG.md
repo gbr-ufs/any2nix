@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4](https://github.com/gbr-ufs/any2nix/compare/any2nix-v0.1.3...any2nix-v0.1.4) - 2026-10-14
+
+### Other
+
+- remove unecessary getting started section
+- further expand library README
+
 ## [0.1.3](https://github.com/gbr-ufs/any2nix/compare/any2nix-v0.1.1...any2nix-v0.1.3) - 2026-09-20
 
 ### Other
