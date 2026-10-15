@@ -18,11 +18,11 @@ keywords = ["converter", "nix", "web"]
 license.workspace = true
 name = "any2nix-website"
 repository.workspace = true
-version = "0.1.7"
+version = "0.1.8"
 
 [dependencies]
 any2nix.workspace = true
-any2nix-api = { optional = true, path = "../any2nix-api", version = "0.1.4" }
+any2nix-api = { optional = true, path = "../any2nix-api", version = "0.1.5" }
 any2nix-i18n = { features = ["axum"], workspace = true }
 askama = "0.16.1"
 axum = { features = ["tracing"], version = "0.8.9" }
