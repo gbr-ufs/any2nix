@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4](https://github.com/gbr-ufs/any2nix/compare/any2nix-gui-v0.1.3...any2nix-gui-v0.1.4) - 2026-10-15
+
+### Other
+
+- update Cargo.lock dependencies
+
 ## [0.1.3](https://github.com/gbr-ufs/any2nix/compare/any2nix-gui-v0.1.1...any2nix-gui-v0.1.3) - 2026-09-20
 
 ### Other
