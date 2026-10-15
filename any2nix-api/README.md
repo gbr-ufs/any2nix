@@ -53,6 +53,9 @@ Interactive OpenAPI documentation is available at `/docs` when the `utoipa-swagg
 
 ## Installation
 
+> [!NOTE]
+> Environment variables `ANY2NIX_API_HOST` and `ANY2NIX_API_PORT` are available for setting the host address and port, respectively.
+
 ### Install with Cargo
 
 ```bash

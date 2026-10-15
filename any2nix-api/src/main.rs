@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use any2nix_api::app;
+use std::env;
 use tokio::net::TcpListener;
 #[cfg(feature = "trace")]
 use tracing_subscriber::layer::SubscriberExt;
@@ -11,7 +12,16 @@ use tracing_subscriber::util::SubscriberInitExt;
 
 #[tokio::main]
 async fn main() {
-    let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let host = env::var("ANY2NIX_API_HOST")
+        .or_else(|_| env::var("HOST"))
+        .unwrap_or_else(|_| "0.0.0.0".to_string());
+    let port: u16 = env::var("ANY2NIX_API_PORT")
+        .or_else(|_| env::var("PORT"))
+        .ok()
+        .and_then(|p| p.parse().ok())
+        .unwrap_or(3000);
+
+    let listener = TcpListener::bind((host.as_str(), port)).await.unwrap();
     let app = app();
 
     #[cfg(feature = "trace")]
