@@ -39,6 +39,9 @@ any2nix-website supports converting from the following formats into Nix expressi
 
 ## Installation
 
+> [!NOTE]
+> Environment variables `ANY2NIX_WEBSITE_HOST` and `ANY2NIX_WEBSITE_PORT` are available for setting the host address and port, respectively.
+
 ### Install with Cargo
 
 ```bash
