@@ -202,6 +202,7 @@
               cargo-llvm-cov
               cocogitto
               dockerfile-language-server
+              evcxr
               gtk4
               gtksourceview5
               htmx-lsp
